@@ -1,0 +1,61 @@
+<div id="dashboard">
+  <div class="dashboard-info">
+    <div class="title">
+      <span>Dashboard</span>
+      <span>{{ curretimeToString() }}</span>
+    </div>
+    <div class="count-block">
+      <div>
+        <span>Total Permits</span>
+        <span>{{ totalPermits }}</span>
+      </div>
+      <div>
+        <span>Checked-in</span>
+        <span>{{ checkedIn }}</span>
+      </div>
+    </div>
+    <div class="checkin-time">
+
+    </div>
+    <div class="count-block" [class.alert]="sos !== 0 || offTrialHiker !== 0">
+      <div>
+        <span [class.alertWord]="sos !== 0">SOS</span>
+        <span [class.alertWord]="sos !== 0">{{ sos }}</span>
+      </div>
+      <div>
+        <span [class.alertWord]="offTrialHiker !== 0">Off Trial Hiker</span>
+        <span [class.alertWord]="offTrialHiker !== 0">{{ offTrialHiker }}</span>
+      </div>
+    </div>
+    <div class="count-block">
+      <div>
+        <span>Unresolved Event</span>
+        <span>{{ unResolvedEvent }}</span>
+      </div>
+      <div>
+        <span>Pending</span>
+        <span>{{ pending }}</span>
+      </div>
+    </div>
+    <div class="count-block">
+      <div>
+        <span>Sunrise</span>
+        <span>
+          {{ sunrise }}
+          <span>am</span>
+        </span>
+      </div>
+      <div>
+        <span>Sunset</span>
+        <span>
+          {{ sunset }}
+          <span>pm</span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-map">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
+    </agm-map>
+  </div>
+</div>

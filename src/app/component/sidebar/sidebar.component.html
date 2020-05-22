@@ -1,0 +1,47 @@
+<div id="sidebar">
+  <div
+    class="icon-button"
+    [routerLink]="'dashboard'"
+    (click)="onChangePage('dashboard')"
+    [class.active]="activateTab['dashboard']"
+  >
+    <fa-icon [icon]="faHiking"></fa-icon>
+    <span>Dashboard</span>
+  </div>
+  <div
+    class="icon-button"
+    [routerLink]="'event'"
+    (click)="onChangePage('event')"
+    [class.active]="activateTab['event']"
+  >
+    <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+    <span>Event</span>
+  </div>
+  <div
+    class="icon-button"
+    [routerLink]="'alert'"
+    (click)="onChangePage('alert')"
+    [class.active]="activateTab['alert']"
+  >
+    <fa-icon [icon]="faBell"></fa-icon>
+    <span>Alert</span>
+  </div>
+  <div
+    class="icon-button"
+    [routerLink]="'permit'"
+    (click)="onChangePage('permit')"
+    [class.active]="activateTab['permit']"
+  >
+    <fa-icon [icon]="faClipboardList"></fa-icon>
+    <span>Permit</span>
+  </div>
+  <div
+    class="icon-button"
+    [routerLink]="'statistics'"
+    (click)="onChangePage('statistics')"
+    [class.active]="activateTab['statistics']"
+  >
+    <fa-icon [icon]="faChartBar"></fa-icon>
+    <span>Statistics</span>
+  </div>
+</div>
