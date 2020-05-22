@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, BaseChartDirective, Label } from 'ng2-charts';
+import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +21,36 @@ export class DashboardComponent implements OnInit {
   pending = 0;
   sunrise = '5:00';
   sunset = '6:00';
+
+  public lineChartData: ChartDataSets[] = [
+    { data: [0, 20, 100, 60, 20, 1, 0], label: '' }
+  ];
+  public lineChartLabels: Label[] = ['00', '04', '08', '12', '16', '20', '24'];
+  public lineChartOptions: (ChartOptions & { annotation: any }) = {
+    responsive: true,
+    scales: {
+      xAxes: [{}],
+      yAxes: [{}]
+    },
+    annotation: {
+      annotations: []
+    },
+  };
+  public lineChartColors: Color[] = [
+    {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      borderColor: 'rgba(0, 0, 0, 1)',
+      pointBackgroundColor: 'rgba(0,0,0,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(0,0,0,0.8)'
+    }
+  ];
+  public lineChartLegend = false;
+  public lineChartType = 'line';
+
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
 
 
   constructor() { }

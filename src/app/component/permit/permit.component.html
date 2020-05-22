@@ -1,3 +1,124 @@
-<p>
-  permit works!
-</p>
+<div id="permit">
+  <div class="title">Event</div>
+  <div class="info-edit">
+    <div
+      (mouseover)="typeHover=true"
+      (mouseout)="typeHover=false"
+      *ngIf="selection.isEmpty()"
+      [matMenuTriggerFor]="typeMenu"
+      #menuTrigger="matMenuTrigger"
+    >
+      <div>
+        All
+      </div>
+      <fa-icon [icon]="faChevronDown" *ngIf="typeHover"></fa-icon>
+    </div>
+    <mat-menu #typeMenu="matMenu" yPosition="below" class="customize110">
+      <button mat-menu-item>
+        <span>All</span>
+      </button>
+      <button mat-menu-item>
+        <span>Current</span>
+      </button>
+      <button mat-menu-item>
+        <span>History</span>
+      </button>
+    </mat-menu>
+    <div
+      (mouseover)="typeHover=true"
+      (mouseout)="typeHover=false"
+      *ngIf="!selection.isEmpty()"
+      [matMenuTriggerFor]="alertMenu"
+      #menuTrigger="matMenuTrigger"
+    >
+      <div>
+        <fa-icon [icon]="faTag" style="font-size: 14px;"></fa-icon>
+        Mark as
+      </div>
+      <fa-icon [icon]="faChevronDown"></fa-icon>
+    </div>
+    <mat-menu #alertMenu="matMenu" yPosition="below" class="customize110">
+      <button mat-menu-item>
+        <span>Normal</span>
+      </button>
+      <button mat-menu-item>
+        <span>Watchlist</span>
+      </button>
+      <button mat-menu-item>
+        <span>Blaklist</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div class="table">
+    <table mat-table matSort [dataSource]="dataSource">
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mark">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <fa-icon [icon]="faTag" style="font-size: 14px;" [ngStyle]="{'color': getMarkColor(element.mark)}"></fa-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dob">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </th>
+        <td mat-cell *matCellDef="let element"> {{ element.dob }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nationality </th>
+        <td mat-cell *matCellDef="let element"> {{ element.nation }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Number </th>
+        <td mat-cell *matCellDef="let element"> {{ element.idNumber }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="permit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Permit Time </th>
+        <td mat-cell *matCellDef="let element"> {{ element.permit }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="destination">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Destination </th>
+        <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let element">
+          {{ statusTransform(element.status) }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row)">
+      </tr>
+    </table>
+
+  </div>
+  <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+</div>

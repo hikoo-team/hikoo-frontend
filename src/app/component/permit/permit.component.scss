@@ -1,0 +1,53 @@
+@import "../../../color.scss";
+
+:host {
+  height: 100%;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+
+  #permit {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+
+    .title {
+      width: 100%;
+      height: 60px;
+      padding: 20px 20px 10px 20px;
+      color: $color-blackword;
+      font-size: 24px;
+    }
+
+    .info-edit {
+      width: 100%;
+      height: 45px;
+      padding: 0 20px 20px 20px;
+      display: flex;
+
+      > div {
+        width: 110px;
+        height: 100%;
+        margin: 0 20px 0 0;
+        color: $color-grayword;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+
+      >div:hover {
+        border-bottom: solid 1px $color-bordergray;
+      }
+    }
+
+    .table {
+      width: 100%;
+      height: calc(100% - 105px);
+      overflow: auto;
+      table {
+        width: 100%;
+      }
+    }
+  }
+}

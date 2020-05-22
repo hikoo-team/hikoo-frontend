@@ -13,6 +13,7 @@
     display: flex;
     flex-flow: column;
     justify-content: center;
+    overflow-y: auto;
 
     .active {
       color: $color-focusgreen !important;

@@ -1,0 +1,109 @@
+<div id="event-detail">
+  <div class="event-info">
+    <div (click)="backToEvent()" class="back">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Event
+    </div>
+    <div class="title">
+      <span>Event Detail</span>
+      <span>
+        <fa-icon [icon]="faBell" style="margin-right: 5px;"></fa-icon>
+        Create Alert
+      </span>
+    </div>
+    <div class="event-detail-info">
+      Event #{{ uuid }}
+    </div>
+    <div class="event-detail-info">
+      <div>
+        <span>Type</span>
+        <span>{{ data.type }}</span>
+      </div>
+      <div
+        [matMenuTriggerFor]="levelMenu"
+        #menuTrigger="matMenuTrigger"
+      >
+        <span>Level</span>
+        <span>
+          <div>
+            <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(data.level)}"></fa-icon>
+            {{ levelTransform(data.level) }}
+          </div>
+          <div>
+            <fa-icon [icon]="faChevronDown" style="color:#8E8E8E"></fa-icon>
+          </div>
+        </span>
+      </div>
+      <mat-menu #levelMenu="matMenu" yPosition="below" class="customize240">
+        <button mat-menu-item>
+          <span>Info</span>
+        </button>
+        <button mat-menu-item>
+          <span>Caution</span>
+        </button>
+        <button mat-menu-item>
+          <span>Danger</span>
+        </button>
+      </mat-menu>
+    </div>
+    <div class="event-detail-info">
+      <div>
+        <span>Time</span>
+        <span>{{ timeTransform(data.time) }}</span>
+      </div>
+      <div>
+        <span>Location</span>
+        <span>{{ data.location }}</span>
+      </div>
+    </div>
+    <div class="event-detail-info">
+      <div class="width-full">
+        <span>Reporter</span>
+        <span>{{ data.reporter }}</span>
+      </div>
+    </div>
+    <div class="event-detail-info">
+      <div class="width-full">
+        <span>Receiving Unit</span>
+        <span>{{ data.receivingUnit }}</span>
+      </div>
+    </div>
+    <div class="event-detail-info">
+      <div
+        class="width-full"
+        [matMenuTriggerFor]="statusMenu"
+        #menuTrigger="matMenuTrigger"
+      >
+        <span>Ststus</span>
+        <span>
+          {{ statusTransform(data.status) }}
+          <fa-icon [icon]="faChevronDown" style="color:#8E8E8E"></fa-icon>
+        </span>
+      </div>
+      <mat-menu #statusMenu="matMenu" yPosition="below" class="customize485">
+        <button mat-menu-item>
+          <span>Pending</span>
+        </button>
+        <button mat-menu-item>
+          <span>Processing</span>
+        </button>
+        <button mat-menu-item>
+          <span>Resolved</span>
+        </button>
+      </mat-menu>
+    </div>
+    <div class="event-detail-info">
+      <div class="width-full">
+        <span>Description</span>
+        <span>{{ data.description }}</span>
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="event-map">
+    <!--<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
+    </agm-map>--->
+  </div>
+</div>

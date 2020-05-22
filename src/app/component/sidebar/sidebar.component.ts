@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   faHiking,
   faExclamationTriangle,
@@ -29,10 +30,16 @@ export class SidebarComponent implements OnInit {
   };
 
   page = 'dashboard';
+  url = [];
+  position: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    // console.log(this.router.url);
+    // this.url = this.router.url.split('/', 4);
+    // console.log(this.url);
+    // this.page = this.url[2];
     this.onChangePage(this.page);
   }
 

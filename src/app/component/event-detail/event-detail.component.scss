@@ -5,7 +5,7 @@
   -moz-user-select: none;
   -webkit-user-select: none;
 
-  #dashboard {
+  #event-detail {
     width: 100%;
     height: 100%;
     display: flex;
@@ -14,13 +14,22 @@
       height: 100vh;
     }
 
-    .dashboard-info {
+    .event-info {
       width: 30%;
       height: 100%;
       padding: 25px;
       background-color: $color-functionwhite;
       box-shadow: 3px 0 8px rgba(0, 0, 0, 0.16);
       overflow-y: auto;
+
+      .back {
+        cursor: pointer;
+        width: 100%;
+        height: 20px;
+        color: $color-grayword;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
 
       .title {
         width: 100%;
@@ -32,8 +41,9 @@
           font-size: 24px;
         }
         span:nth-child(2) {
-          color: $color-grayword;
-          font-size: 18px;
+          cursor: pointer;
+          color: $color-greenword;
+          font-size: 16px;
           display: flex;
           align-items: flex-end;
         }
@@ -47,56 +57,33 @@
         color: $color-alertred !important;
       }
 
-      .count-block {
-        margin-bottom: 15px;
-        padding: 20px;
+      .event-detail-info {
+        color: $color-grayword;
+        min-height: 40px;
         width: 100%;
-        min-height: 100px;
-        background-color: $color-white;
-        border: solid 1px $color-bordergray;
-        border-radius: 8px;
+        margin-bottom: 15px;
+        border-bottom: solid 1px $color-borderlightgray;
         display: flex;
-        div {
+
+        >div {
           width: 50%;
-          height: 100%;
           display: flex;
           flex-flow: column;
-          span {
-            color: $color-grayword;
-            font-size: 16px;
-          }
-          span:nth-child(2) {
-            margin-top: 5px;
+          >span:nth-child(2) {
             color: $color-blackword;
-            font-size: 46px;
-            span {
-              color: $color-blackword;
-              font-size: 20px;
-            }
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
           }
         }
-      }
 
-      .checkin-time {
-        margin-bottom: 15px;
-        padding: 20px;
-        width: 100%;
-        min-height: 100px;
-        background-color: $color-white;
-        border: solid 1px $color-bordergray;
-        border-radius: 8px;
-        display: flex;
-        flex-flow: column;
-        div {
-          color: $color-grayword;
-          font-size: 16px;
-          margin-bottom: 15px;
+        .width-full {
+          width: 100%;
         }
       }
-
     }
 
-    .dashboard-map {
+    .event-map {
       flex: 1;
       height: 100%;
     }
