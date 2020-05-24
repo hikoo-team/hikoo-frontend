@@ -8,6 +8,7 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { EventComponent } from './component/event/event.component';
 import { EventDetailComponent } from './component/event-detail/event-detail.component';
 import { AlertComponent } from './component/alert/alert.component';
+import { AlertInfoComponent } from './component/alert-info/alert-info.component';
 import { PermitComponent } from './component/permit/permit.component';
 import { StatisticsComponent } from './component/statistics/statistics.component';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'event', component: EventComponent },
       { path: 'event-detail', component: EventDetailComponent },
       { path: 'alert', component: AlertComponent },
+      { path: 'alert-detail', component: AlertInfoComponent },
       { path: 'permit', component: PermitComponent },
       { path: 'statistics', component: StatisticsComponent }
     ]

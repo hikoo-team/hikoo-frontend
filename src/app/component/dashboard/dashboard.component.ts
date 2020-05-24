@@ -19,11 +19,11 @@ export class DashboardComponent implements OnInit {
   offTrialHiker = 0;
   unResolvedEvent = 0;
   pending = 0;
-  sunrise = '5:00';
-  sunset = '6:00';
+  sunrise = '4:00';
+  sunset = '7:38';
 
   public lineChartData: ChartDataSets[] = [
-    { data: [0, 20, 100, 60, 20, 1, 0], label: '' }
+    { data: [0, 20, 1000, 60, 20, 1, 0], label: '' }
   ];
   public lineChartLabels: Label[] = ['00', '04', '08', '12', '16', '20', '24'];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {

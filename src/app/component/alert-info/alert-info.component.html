@@ -1,3 +1,36 @@
-<p>
-  alert-info works!
-</p>
+<div id="alert-detail">
+  <div class="alert-info">
+    <div (click)="backToEvent()" class="back">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Alert
+    </div>
+    <div class="title">
+      <span>Alert Detail</span>
+    </div>
+    <div class="alert-detail-info">
+      Alert #{{ uuid }}
+    </div>
+  </div>
+  <div class="line"></div>
+
+  <div class="alert-info">
+    <div class="event-detail-info">
+      <div>
+        <span>Type</span>
+        <span>{{ data.type }}</span>
+      </div>
+    </div>
+    <div class="event-detail-info">
+      <div>
+        <span>Time</span>
+        <span>{{ timeTransform(data.time) }}</span>
+      </div>
+    </div>
+    <div class="event-detail-info">
+      <div class="width-full">
+        <span>Reporter</span>
+        <span>{{ data.reporter }}</span>
+      </div>
+    </div>
+  </div>
+</div>

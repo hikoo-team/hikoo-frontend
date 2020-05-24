@@ -30,12 +30,12 @@
 
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element"> {{ element.type }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openAlertDetail(element.index)"> {{ element.type }} </td>
       </ng-container>
 
       <ng-container matColumnDef="level">
         <th mat-header-cell *matHeaderCellDef> Level </th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" (click)="openAlertDetail(element.index)">
           <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(element.level)}"></fa-icon>
           {{ levelTransform(element.level) }}
         </td>
@@ -43,17 +43,17 @@
 
       <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef> Broadcast Time </th>
-        <td mat-cell *matCellDef="let element"> {{ timeTransform(element.time) }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openAlertDetail(element.index)"> {{ timeTransform(element.time) }} </td>
       </ng-container>
 
       <ng-container matColumnDef="location">
         <th mat-header-cell *matHeaderCellDef> Location </th>
-        <td mat-cell *matCellDef="let element"> {{ element.location }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openAlertDetail(element.index)"> {{ element.location }} </td>
       </ng-container>
 
       <ng-container matColumnDef="station">
         <th mat-header-cell *matHeaderCellDef> Sent From </th>
-        <td mat-cell *matCellDef="let element"> {{ element.station }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openAlertDetail(element.index)"> {{ element.station }} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>

@@ -1,4 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   MatTableDataSource,
@@ -85,7 +86,9 @@ export class AlertComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
@@ -120,6 +123,15 @@ export class AlertComponent implements OnInit {
   timeTransform(time: number) {
     const timer = new Date(time);
     return timer.getMonth() + 1 + '/' + timer.getDate() + ' ' + timer.getHours() + ':' + timer.getMinutes() + ':' + timer.getSeconds();
+  }
+
+  openAlertDetail(index: number) {
+    this.router.navigate([
+      '/main/alert-detail',
+      {
+        id: index
+      }
+    ]);
   }
 
   isAllSelected() {
