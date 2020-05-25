@@ -1,4 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   MatTableDataSource,
@@ -81,11 +82,22 @@ export class PermitComponent implements OnInit {
   typeHover = false;
 
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  openPermitDetail(index: number) {
+    this.router.navigate([
+      '/main/permit-detail',
+      {
+        id: index
+      }
+    ]);
   }
 
   statusTransform(status: number) {

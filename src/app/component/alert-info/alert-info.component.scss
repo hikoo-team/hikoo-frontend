@@ -15,12 +15,50 @@
       border-bottom: solid 2px $color-grayword;
     }
 
+    .linethin {
+      border-bottom: solid 1px $color-borderlightgray;
+      margin: 20px 0;
+    }
+
+    .alert-title {
+      width: 100%;
+      height: 168px;
+      padding: 25px;
+      overflow-y: auto;
+
+      .back {
+        cursor: pointer;
+        width: 100%;
+        height: 20px;
+        color: $color-grayword;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      .title {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        span {
+          color: $color-blackword;
+          font-size: 24px;
+        }
+        span:nth-child(2) {
+          cursor: pointer;
+          color: $color-greenword;
+          font-size: 16px;
+          display: flex;
+          align-items: flex-end;
+        }
+      }
+    }
+
 
     .alert-info {
-      flex: 1;
       width: 100%;
+      height: calc(100% - 168px);
       padding: 25px;
-      background-color: $color-functionwhite;
       overflow-y: auto;
 
       .back {
@@ -50,26 +88,27 @@
         }
       }
 
-      .alert {
-        border: solid 3px $color-alertred !important;
-      }
-
-      .alertWord {
-        color: $color-alertred !important;
-      }
-
       .event-detail-info {
         color: $color-grayword;
         min-height: 40px;
         width: 100%;
         margin-bottom: 15px;
-        border-bottom: solid 1px $color-borderlightgray;
         display: flex;
 
         >div {
           width: 50%;
           display: flex;
           flex-flow: column;
+
+          >div {
+            height: 30px;
+            border: solid 1px $color-grayword;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            color: $color-blackword;
+          }
           >span:nth-child(2) {
             color: $color-blackword;
             margin: 15px 0;
@@ -84,10 +123,6 @@
       }
     }
 
-    .event-map {
-      flex: 1;
-      height: 100%;
-    }
   }
 
 

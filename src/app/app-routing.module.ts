@@ -11,6 +11,7 @@ import { AlertComponent } from './component/alert/alert.component';
 import { AlertInfoComponent } from './component/alert-info/alert-info.component';
 import { PermitComponent } from './component/permit/permit.component';
 import { StatisticsComponent } from './component/statistics/statistics.component';
+import { UserPermitInfoComponent } from './component/user-permit-info/user-permit-info.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'alert', component: AlertComponent },
       { path: 'alert-detail', component: AlertInfoComponent },
       { path: 'permit', component: PermitComponent },
+      { path: 'permit-detail', component: UserPermitInfoComponent },
       { path: 'statistics', component: StatisticsComponent }
     ]
   }

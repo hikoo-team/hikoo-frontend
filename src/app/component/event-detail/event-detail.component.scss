@@ -79,7 +79,25 @@
 
         .width-full {
           width: 100%;
+          >div {
+            margin-top: 15px;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: space-between;
+
+            >span {
+              width: 130px;
+              height: 130px;
+              border: solid 1px $color-borderlightgray;
+              cursor: pointer;
+            }
+          }
         }
+      }
+
+      .photo {
+        border: none;
       }
     }
 

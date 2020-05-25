@@ -3,13 +3,16 @@ import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   MatTableDataSource,
-  MatPaginator
+  MatPaginator,
+  MatDialog
 } from '@angular/material';
 
 import {
   faBell,
   faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
+
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 export interface PeriodicElement {
   index: number;
@@ -88,6 +91,7 @@ export class AlertComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -132,6 +136,21 @@ export class AlertComponent implements OnInit {
         id: index
       }
     ]);
+  }
+
+  onAlertDialogOpen() {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '50%',
+      minHeight: '50vh',
+      maxHeight: '90vh',
+      disableClose: true,
+      position: {
+        top: '55px'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
   isAllSelected() {

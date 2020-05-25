@@ -40,6 +40,12 @@ body {
   height: 0px;
 }
 
+.mat-dialog-container {
+  background-color: $color-white;
+  padding: 0px !important;
+  color: black;
+}
+
 .mat-checkbox-frame {
   border-color: $color-bordergray;
 }
@@ -113,4 +119,73 @@ body {
   background: $color-white;
   border: solid 1px $color-bordergray;
   max-width: 500px !important;
+}
+
+
+.done-btn {
+  height: 40px;
+  width: 42%;
+  margin-left: 8px;
+  background-color: $color-greenword;
+  color: $color-white;
+  border-width: 0px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-greenword;
+    color: $color-white;
+  }
+
+  &:focus {
+    background-color:$color-greenword;
+    color: $color-white;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: $color-borderdarkgray;
+    color: $color-white;
+    cursor: not-allowed;
+  }
+}
+
+.cancel-btn {
+  height: 40px;
+  width: 42%;
+  margin-left: 8px;
+  background-color: $color-white;
+  color: $color-greenword;
+  border: solid 1px $color-greenword;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: $color-borderdarkgray;
+    color: $color-white;
+    cursor: not-allowed;
+  }
+}
+
+.width200 {
+  width: 200px;
+  margin-left: 0;
+}
+
+.margin-right {
+  margin-right: 20px;;
 }

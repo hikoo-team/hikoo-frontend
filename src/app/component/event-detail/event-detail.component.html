@@ -6,7 +6,7 @@
     </div>
     <div class="title">
       <span>Event Detail</span>
-      <span>
+      <span (click)="onAlertDialogOpen()">
         <fa-icon [icon]="faBell" style="margin-right: 5px;"></fa-icon>
         Create Alert
       </span>
@@ -99,9 +99,14 @@
       </div>
     </div>
 
-    <div class="event-detail-info">
+    <div class="event-detail-info photo">
       <div class="width-full">
         <span>Photo</span>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </div>
 

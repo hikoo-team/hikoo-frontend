@@ -1,6 +1,9 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  MatDialog
+} from '@angular/material';
+import {
   ActivatedRoute,
   Router
 } from '@angular/router';
@@ -10,6 +13,8 @@ import {
   faExclamationTriangle,
   faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
+
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -50,12 +55,28 @@ export class EventDetailComponent implements OnInit {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
 
   }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get('id');
+  }
+
+  onAlertDialogOpen() {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '50%',
+      minHeight: '50vh',
+      maxHeight: '90vh',
+      disableClose: true,
+      position: {
+        top: '55px'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
   backToEvent() {

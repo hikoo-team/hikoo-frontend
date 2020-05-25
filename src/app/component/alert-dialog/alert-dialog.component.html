@@ -1,0 +1,72 @@
+<div class="dialog-navbar">
+  Create New Alert
+</div>
+
+<div class="dialog-content">
+  <div class="event-select">
+    <div>
+      <span>Select from event</span>
+      <span (click)="onEventSelectDialogOpen()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        Add Event
+      </span>
+    </div>
+    <div></div>
+  </div>
+
+  <div class="event-broadcast">
+    <div>
+      <span>Broadcast to hikers</span>
+    </div>
+    <div class="radio-btn">
+      <input
+        type="radio"
+        name="yesnobtn"
+        value="schedule"
+        [(ngModel)]="broadcastType"
+      />
+      <label style="padding-right: 80px;">Include the schedule</label>
+      <input
+        type="radio"
+        name="yesnobtn"
+        value="range"
+        [(ngModel)]="broadcastType"
+      />
+      <label style="padding-right: 5px;">Within a range of</label>
+      <input
+        type="number"
+      />
+      <label>km</label>
+    </div>
+    <div class="place">
+      To
+      <input type="text" />
+      <select>
+        <option></option>
+      </select>
+    </div>
+  </div>
+
+  <div class="event-text">
+    <div>
+      <span>Content</span>
+      <textarea></textarea>
+    </div>
+  </div>
+
+  <div class="attach-btn">
+    <fa-icon [icon]="faPaperclip"></fa-icon>
+    <span>Attach File</span>
+  </div>
+
+  <div class="event-creator">
+    <div>
+      <span>Creator</span>
+      <input type="text"/>
+    </div>
+    <div>
+      <button class="cancel-btn" (click)="onCancel()">Cancel</button>
+      <button class="done-btn" (click)="onSave()">Send</button>
+    </div>
+  </div>
+</div>

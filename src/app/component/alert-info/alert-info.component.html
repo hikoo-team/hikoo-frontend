@@ -1,5 +1,5 @@
 <div id="alert-detail">
-  <div class="alert-info">
+  <div class="alert-title">
     <div (click)="backToEvent()" class="back">
       <fa-icon [icon]="faArrowLeft"></fa-icon>
       Alert
@@ -16,20 +16,47 @@
   <div class="alert-info">
     <div class="event-detail-info">
       <div>
-        <span>Type</span>
-        <span>{{ data.type }}</span>
+        <span>From event</span>
+        <div>
+          <span>Falling rocks</span>
+          <span>
+            <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(0)}"></fa-icon>
+            Danger
+          </span>
+          <span>5/25 6:49:31</span>
+          <span>24.937596, 121.021746</span>
+        </div>
+      </div>
+    </div>
+    <div class="linethin"></div>
+    <div class="event-detail-info">
+      <div>
+        <span>Broadcast to hikers</span>
+        <span>Within a range of 3 km</span>
       </div>
     </div>
     <div class="event-detail-info">
       <div>
-        <span>Time</span>
-        <span>{{ timeTransform(data.time) }}</span>
+        <span>To</span>
+        <span>Mount. Tao</span>
+      </div>
+      <div>
+        <span>At</span>
+        <span>9:38AM, 2020/5/25</span>
       </div>
     </div>
+    <div class="linethin"></div>
     <div class="event-detail-info">
       <div class="width-full">
-        <span>Reporter</span>
-        <span>{{ data.reporter }}</span>
+        <span>Content</span>
+        <span>Dangerous!!</span>
+      </div>
+    </div>
+    <div class="linethin"></div>
+    <div class="event-detail-info">
+      <div class="width-full">
+        <span>Creator</span>
+        <span>Chuang, Hui-jia</span>
       </div>
     </div>
   </div>

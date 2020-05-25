@@ -71,44 +71,44 @@
 
       <ng-container matColumnDef="mark">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)">
           <fa-icon [icon]="faTag" style="font-size: 14px;" [ngStyle]="{'color': getMarkColor(element.mark)}"></fa-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)">{{ element.name }}</td>
       </ng-container>
 
       <ng-container matColumnDef="dob">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </th>
-        <td mat-cell *matCellDef="let element"> {{ element.dob }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.dob }} </td>
       </ng-container>
 
       <ng-container matColumnDef="nation">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nationality </th>
-        <td mat-cell *matCellDef="let element"> {{ element.nation }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.nation }} </td>
       </ng-container>
 
       <ng-container matColumnDef="idNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Number </th>
-        <td mat-cell *matCellDef="let element"> {{ element.idNumber }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.idNumber }} </td>
       </ng-container>
 
       <ng-container matColumnDef="permit">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Permit Time </th>
-        <td mat-cell *matCellDef="let element"> {{ element.permit }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.permit }} </td>
       </ng-container>
 
       <ng-container matColumnDef="destination">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Destination </th>
-        <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.destination }} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)">
           {{ statusTransform(element.status) }}
         </td>
       </ng-container>

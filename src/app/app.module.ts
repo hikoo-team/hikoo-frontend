@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -43,6 +44,7 @@ import { AlertDialogComponent } from './component/alert-dialog/alert-dialog.comp
 import { MessageDialogComponent } from './component/message-dialog/message-dialog.component';
 import { UserPermitInfoComponent } from './component/user-permit-info/user-permit-info.component';
 import { AlertInfoComponent } from './component/alert-info/alert-info.component';
+import { AlertEventDialogComponent } from './component/alert-event-dialog/alert-event-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { AlertInfoComponent } from './component/alert-info/alert-info.component'
     AlertDialogComponent,
     MessageDialogComponent,
     UserPermitInfoComponent,
-    AlertInfoComponent
+    AlertInfoComponent,
+    AlertEventDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -66,6 +69,7 @@ import { AlertInfoComponent } from './component/alert-info/alert-info.component'
     ChartsModule,
     FontAwesomeModule,
     HttpClientModule,
+    FormsModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -90,6 +94,11 @@ import { AlertInfoComponent } from './component/alert-info/alert-info.component'
       language: 'zh-TW'
     }),
     BrowserAnimationsModule
+  ],
+  entryComponents: [
+    AlertDialogComponent,
+    MessageDialogComponent,
+    AlertEventDialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

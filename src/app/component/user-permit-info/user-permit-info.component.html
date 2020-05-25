@@ -1,3 +1,209 @@
-<p>
-  user-permit-info works!
-</p>
+<div id="permit-detail">
+  <div class="permit-title">
+    <div (click)="backToEvent()" class="back">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+      Permit
+    </div>
+    <div class="title">
+      <span>Permit #{{ uuid }}</span>
+      <span>
+        Status:
+        <span> Accepted</span>
+      </span>
+      <span>
+        Issued by:
+        <span> Public Order Division, Nantou County Police Department</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="permit-content">
+    <div class="content-title">Applicant</div>
+    <div class="content-info">
+      <div>
+        <span>Face ID</span>
+        <div class="id-photo">
+
+        </div>
+      </div>
+      <div>
+        <span>Name</span>
+        <span>Maktoum bin Rashid Al Maktoum</span>
+        <span>Nationality</span>
+        <span>United Arab Emirates</span>
+      </div>
+      <div>
+        <span>Gender</span>
+        <span>Male</span>
+        <span>ID Number</span>
+        <span>136399990</span>
+      </div>
+      <div>
+        <span>Date of Birth</span>
+        <span>1965/8/31</span>
+        <span>Email</span>
+        <span>MaktoumbinRashidAlMaktoum@gmail.com</span>
+      </div>
+      <div>
+        <span>
+          List
+          <span>
+            <fa-icon [icon]="faPen"></fa-icon>
+            Change
+          </span>
+        </span>
+        <span>
+          <fa-icon [icon]="faTag"></fa-icon>
+          Watchlist
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="linethin"></div>
+
+  <div class="permit-content">
+    <div class="content-title">Contact Info</div>
+    <div class="content-contact">
+      <div>
+        <span>Phone Number</span>
+        <span>
+          <span>Home</span>
+          <span>02-23456789</span>
+        </span>
+        <span>
+          <span>Mobile</span>
+          <span>0987654321</span>
+        </span>
+        <span>
+          <span>Satellite</span>
+          <span>N/A</span>
+        </span>
+      </div>
+      <div>
+        <span>Address</span>
+        <span>No. 99, Section 3, Taiwan Boulevard,
+          Xitun District, Taichung City, 40701</span>
+      </div>
+      <div>
+        <span>Other Communication Devices</span>
+        <span>
+          <span>GPS</span>
+          <span>N/A</span>
+        </span>
+        <span>
+          <span>Wireless</span>
+          <span>N/A</span>
+        </span>
+        <span>
+          <span>Others</span>
+          <span>N/A</span>
+        </span>
+      </div>
+      <div>
+        <span>Guide</span>
+        <span>Chen, Min-yo</span>
+        <span>
+          <span>Mobile</span>
+          <span>0987654321</span>
+        </span>
+        <span>
+          <span>Satellite</span>
+          <span>23456789</span>
+        </span>
+      </div>
+      <div>
+        <span>Emergency Contact</span>
+        <span>Fang, Jen-ling</span>
+        <span>
+          <span>Home</span>
+          <span>02-23456789</span>
+        </span>
+        <span>
+          <span>Mobile</span>
+          <span>0987654321</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="linethin"></div>
+
+  <div class="permit-content">
+    <div class="content-title">Itinerary</div>
+    <div class="content-contact">
+      <div>
+        <span>Purpose</span>
+        <span>
+          <span>Home</span>
+          <span></span>
+        </span>
+      </div>
+      <div>
+        <span>Destination</span>
+        <span>Yushan Main Peak, Yushan Front Peak, Yushan East Peak,
+          Chilai South Peak, Chilai Nanhua, Nenggao Mountains, Hehuang Main Peak,
+          Hehuang East Peak, Hehuang North Peak, Hehuang West Peak, Shimen Mountains,
+          Tao Mountains, Lala Mountains</span>
+      </div>
+      <div>
+        <span>Stay Time</span>
+        <span>
+          <span>From</span>
+          <span>2020/5/14</span>
+        </span>
+        <span>
+          <span>To</span>
+          <span>2020/6/30</span>
+        </span>
+      </div>
+      <div>
+        <span>Identity Documents</span>
+        <span>Driver License</span>
+        <span>
+          <div class="licence-photo"></div>
+          <div class="licence-photo"></div>
+        </span>
+      </div>
+      <div>
+        <span>Note</span>
+        <span>N/A</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="linethin"></div>
+
+  <div class="permit-content">
+    <div class="content-title">Check-in Record</div>
+    <div class="content-record">
+      <div>
+        <span>2020/5/14 6:15:49</span>
+        <span>Tatajia Entrance</span>
+        <div class="id-photo">
+
+        </div>
+      </div>
+      <div>
+        <span>2020/5/16 4:08:16</span>
+        <span>Chilai Nanhua Check-in Station</span>
+        <div class="id-photo">
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="linethin"></div>
+
+  <div class="permit-content">
+    <div class="content-title">Memo</div>
+    <div class="content-memo">
+      <textarea></textarea>
+    </div>
+    <button class="done-btn width200">Save</button>
+  </div>
+</div>
