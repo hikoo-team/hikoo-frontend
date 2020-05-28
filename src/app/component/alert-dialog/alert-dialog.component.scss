@@ -29,6 +29,7 @@
     height: 70px;
     padding: 10px 0;
     display: flex;
+    flex-flow: column;
     border-bottom: solid 1px $color-borderlightgray;
 
     >div {
@@ -46,8 +47,16 @@
       }
     }
     >div:nth-child(2) {
-      width: 100%;
-      height: 45px;
+      height: 30px;
+      border: solid 1px $color-grayword;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      color: $color-blackword;
+      >span{
+        color: $color-blackword;
+      }
     }
   }
 
@@ -58,18 +67,35 @@
     >div {
       width: 100%;
 
+      .content-border {
+        height: 300px;
+        width: 100%;
+        border: 1px solid $color-bordergray;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: flex;
+        flex-flow: column;
+
+        >div {
+          display: flex;
+          align-items: center;
+          height: 120px;
+          padding-left: 10px;
+        }
+      }
+
       textarea {
         font-family: "Open Sans", "Noto Sans TC", Arial, sans-serif !important;
-        height: 300px;
+        height: 180px;
         width: 100%;
         resize: none;
         display: block;
         padding: 10px;
-        font-size: 14px;
+        border: 0px solid $color-bordergray;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        font-size: 16px;
         color: $color-blackword;
-        border: 1px solid $color-bordergray;
-        border-radius: 5px;
-        margin-top: 10px;
         line-height: 1.8em;
 
         &:focus {
@@ -188,21 +214,18 @@
       display: flex;
       flex-flow: column;
 
-      input[type="text"] {
-        font-family: "Open Sans", "Noto Sans TC", Arial, sans-serif !important;
+      select {
         height: 40px;
         width: 100%;
         padding-left: 12px;
-        font-size: 16px;
+        margin-left: 10px;
+        font-size: 14px;
         color: $color-blackword;
         border: 1px solid $color-bordergray;
-        border-radius: 5px;
+        border-radius: 3px;
         margin-top: 10px;
-
-        &:focus {
-          outline: none;
-        }
       }
+
 
       >span {
         color: $color-grayword;

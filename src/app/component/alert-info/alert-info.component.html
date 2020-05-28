@@ -1,4 +1,4 @@
-<div id="alert-detail">
+<div id="alert-detail" *ngIf="!loading">
   <div class="alert-title">
     <div (click)="backToEvent()" class="back">
       <fa-icon [icon]="faArrowLeft"></fa-icon>
@@ -8,7 +8,7 @@
       <span>Alert Detail</span>
     </div>
     <div class="alert-detail-info">
-      Alert #{{ uuid }}
+      Alert #{{ alertId }}
     </div>
   </div>
   <div class="line"></div>
@@ -18,13 +18,13 @@
       <div>
         <span>From event</span>
         <div>
-          <span>Falling rocks</span>
+          <span>{{ element.eventTypeName }}</span>
           <span>
-            <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(0)}"></fa-icon>
-            Danger
+            <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(element.alertLevelId)}"></fa-icon>
+            {{ levelTransform(element.alertLevelId) }}
           </span>
-          <span>5/25 6:49:31</span>
-          <span>24.937596, 121.021746</span>
+          <span>{{ timeTransform(element.eventTime) }}</span>
+          <span>{{ element.latpt }}, {{ element.lngpt }}</span>
         </div>
       </div>
     </div>
@@ -32,31 +32,34 @@
     <div class="event-detail-info">
       <div>
         <span>Broadcast to hikers</span>
-        <span>Within a range of 3 km</span>
+        <span>Within a range of {{ element.radius }} km</span>
       </div>
     </div>
     <div class="event-detail-info">
       <div>
         <span>To</span>
-        <span>Mount. Tao</span>
+        <span>{{ element.permitName }}</span>
       </div>
       <div>
         <span>At</span>
-        <span>9:38AM, 2020/5/25</span>
+        <span>{{ timeTransform(element.logtime) }}</span>
       </div>
     </div>
     <div class="linethin"></div>
-    <div class="event-detail-info">
+    <div class="event-detail-info" style="flex-flow: column;">
       <div class="width-full">
         <span>Content</span>
-        <span>Dangerous!!</span>
+        <span>{{ element.eventInfo }}</span>
+      </div>
+      <div>
+        <img [src]="item" height="100" width="100" *ngFor="let item of element.attachments">
       </div>
     </div>
     <div class="linethin"></div>
     <div class="event-detail-info">
       <div class="width-full">
         <span>Creator</span>
-        <span>Chuang, Hui-jia</span>
+        <span>{{ element.creatorName }}</span>
       </div>
     </div>
   </div>

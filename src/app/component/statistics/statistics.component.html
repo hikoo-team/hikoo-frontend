@@ -1,3 +1,112 @@
-<p>
-  statistics works!
-</p>
+<div id="statistic" *ngIf="!loading">
+  <div class="title">Statistics</div>
+  <div class="info-edit">
+    <div class="select-bar">
+      <span [ngClass]="activeTab['Day'] ? 'active' : ''" (click)="onChangePage('Day')">Day</span>
+      <span [ngClass]="activeTab['Week'] ? 'active' : ''" (click)="onChangePage('Week')">Week</span>
+      <span [ngClass]="activeTab['Month'] ? 'active' : ''" (click)="onChangePage('Month')">Month</span>
+      <span [ngClass]="activeTab['Year'] ? 'active' : ''" (click)="onChangePage('Year')">Year</span>
+    </div>
+    <div></div>
+  </div>
+  <div class="content">
+    <div>
+      <div class="info-window">
+        <div class="info-title">Visitors</div>
+        <div class="info-detail">
+          <div>
+            <span>Total permits</span>
+            <span>382</span>
+          </div>
+          <div>
+            <span>Entry</span>
+            <span>340</span>
+          </div>
+          <div>
+            <span>Off route</span>
+            <span>0</span>
+          </div>
+        </div>
+      </div>
+      <div class="trend-window">
+        <div class="info-title">Entry trend</div>
+        <div class="info-detail">
+          <div class="chart">
+            <canvas baseChart width="60" height="18"
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="info-window">
+        <div class="info-title">Reported Events</div>
+        <div class="info-detail">
+          <div>
+            <span>Total</span>
+            <span>9</span>
+          </div>
+          <div>
+            <span>Type</span>
+            <span class="processbar">
+              <div class="bar" *ngIf="dashboardInfo.infoCount !== 0">
+                <div>
+                  Info
+                </div>
+                <div>
+                  <span class="info-line" [style.width.%]="eventCount(dashboardInfo.infoCount)"></span>&nbsp;&nbsp;&nbsp;
+                  {{ dashboardInfo.infoCount ? dashboardInfo.infoCount : 0 }}
+                </div>
+              </div>
+              <div class="bar" *ngIf="dashboardInfo.cautionCount !== 0">
+                <div>
+                  Caution
+                </div>
+                <div>
+                  <span class="caution-line" [style.width.%]="eventCount(dashboardInfo.cautionCount)"></span>&nbsp;&nbsp;&nbsp;
+                  {{ dashboardInfo.cautionCount ? dashboardInfo.cautionCount : 0 }}
+                </div>
+              </div>
+              <div class="bar" *ngIf="dashboardInfo.dangerCount !== 0">
+                <div>
+                  Danger
+                </div>
+                <div>
+                  <span class="danger-line" [style.width.%]="eventCount(dashboardInfo.dangerCount)"></span>&nbsp;&nbsp;&nbsp;
+                  {{ dashboardInfo.dangerCount ? dashboardInfo.dangerCount : 0 }}
+                </div>
+              </div>
+            </span>
+          </div>
+          <div>
+            <span>Ongoing/Resolved</span>
+            <span>1/8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" [mapTypeControl]="true">
+        <div *ngFor="let item of mapHiker">
+          <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconHiker"></agm-marker>
+        </div>
+        <div *ngFor="let item of mapInfo">
+          <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconInfo"></agm-marker>
+        </div>
+        <div *ngFor="let item of mapCaution">
+          <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconCaution"></agm-marker>
+        </div>
+        <div *ngFor="let item of mapDanger">
+          <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconDanger"></agm-marker>
+        </div>
+        <div *ngFor="let item of mapSos">
+          <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconSos"></agm-marker>
+        </div>
+      </agm-map>
+    </div>
+  </div>
+</div>

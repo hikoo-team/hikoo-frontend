@@ -1,4 +1,4 @@
-<div id="event-detail">
+<div id="event-detail" *ngIf="!loading">
   <div class="event-info">
     <div (click)="backToEvent()" class="back">
       <fa-icon [icon]="faArrowLeft"></fa-icon>
@@ -12,12 +12,12 @@
       </span>
     </div>
     <div class="event-detail-info">
-      Event #{{ uuid }}
+      Event #{{ eventId }}
     </div>
     <div class="event-detail-info">
       <div>
         <span>Type</span>
-        <span>{{ data.type }}</span>
+        <span>{{ element.eventTypeName }}</span>
       </div>
       <div
         [matMenuTriggerFor]="levelMenu"
@@ -26,8 +26,8 @@
         <span>Level</span>
         <span>
           <div>
-            <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(data.level)}"></fa-icon>
-            {{ levelTransform(data.level) }}
+            <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(element.alertLevelId)}"></fa-icon>
+            {{ levelTransform(element.alertLevelId) }}
           </div>
           <div>
             <fa-icon [icon]="faChevronDown" style="color:#8E8E8E"></fa-icon>
@@ -35,13 +35,13 @@
         </span>
       </div>
       <mat-menu #levelMenu="matMenu" yPosition="below" class="customize240">
-        <button mat-menu-item>
-          <span>Info</span>
+        <button mat-menu-item (click)="onChangeLevel(element, 1)">
+          <span>Information</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onChangeLevel(element, 2)">
           <span>Caution</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onChangeLevel(element, 3)">
           <span>Danger</span>
         </button>
       </mat-menu>
@@ -49,23 +49,17 @@
     <div class="event-detail-info">
       <div>
         <span>Time</span>
-        <span>{{ timeTransform(data.time) }}</span>
+        <span>{{ timeTransform(element.eventTime) }}</span>
       </div>
       <div>
         <span>Location</span>
-        <span>{{ data.location }}</span>
+        <span>{{ element.latpt }}, {{ element.lngpt }}</span>
       </div>
     </div>
     <div class="event-detail-info">
       <div class="width-full">
         <span>Reporter</span>
-        <span>{{ data.reporter }}</span>
-      </div>
-    </div>
-    <div class="event-detail-info">
-      <div class="width-full">
-        <span>Receiving Unit</span>
-        <span>{{ data.receivingUnit }}</span>
+        <span>{{ element.reporterName }}</span>
       </div>
     </div>
     <div class="event-detail-info">
@@ -76,18 +70,18 @@
       >
         <span>Ststus</span>
         <span>
-          {{ statusTransform(data.status) }}
+          {{ statusTransform(element.stat) }}
           <fa-icon [icon]="faChevronDown" style="color:#8E8E8E"></fa-icon>
         </span>
       </div>
       <mat-menu #statusMenu="matMenu" yPosition="below" class="customize485">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onChangeStatus(element, 'PENDING')">
           <span>Pending</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onChangeStatus(element, 'PROCESSING')">
           <span>Processing</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onChangeStatus(element, 'RESOLVED')">
           <span>Resolved</span>
         </button>
       </mat-menu>
@@ -95,7 +89,7 @@
     <div class="event-detail-info">
       <div class="width-full">
         <span>Description</span>
-        <span>{{ data.description }}</span>
+        <span>{{ element.eventInfo }}</span>
       </div>
     </div>
 
@@ -103,18 +97,97 @@
       <div class="width-full">
         <span>Photo</span>
         <div>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span *ngFor="let item of element.attachments">
+            <img [src]="item" height="130" width="130">
+          </span>
         </div>
       </div>
     </div>
-
-
-
   </div>
   <div class="event-map">
-    <!--<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
-    </agm-map>--->
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
+      <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="iconinfo" *ngIf="element.alertLevelId === 1"></agm-marker>
+      <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="iconcaution" *ngIf="element.alertLevelId === 2"></agm-marker>
+      <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="icondanger" *ngIf="element.alertLevelId === 3"></agm-marker>
+      <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="iconSos" *ngIf="element.alertLevelId === 4"></agm-marker>
+      <agm-info-window [latitude]="lat" [longitude]="lng+0.001" [isOpen]="true" >
+        <div class="info-text" *ngIf="element.alertLevelId === 1">
+          <span class="title">Information</span>
+          <span>
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            {{ element.eventTypeName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faHiking"></fa-icon>
+            {{ element.reporterName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+            {{ element.latpt }}, {{ element.lngpt }}
+          </span>
+          <span>
+            <fa-icon [icon]="faClock"></fa-icon>
+            {{ timeTransform(element.eventTime) }}
+          </span>
+        </div>
+        <div class="caution-text" *ngIf="element.alertLevelId === 2">
+          <span class="title">Caution</span>
+          <span>
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            {{ element.eventTypeName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faHiking"></fa-icon>
+            {{ element.reporterName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+            {{ element.latpt }}, {{ element.lngpt }}
+          </span>
+          <span>
+            <fa-icon [icon]="faClock"></fa-icon>
+            {{ timeTransform(element.eventTime) }}
+          </span>
+        </div>
+        <div class="sos-text" *ngIf="element.alertLevelId === 3">
+          <span class="title">Danger</span>
+          <span>
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            {{ element.eventTypeName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faHiking"></fa-icon>
+            {{ element.reporterName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+            {{ element.latpt }}, {{ element.lngpt }}
+          </span>
+          <span>
+            <fa-icon [icon]="faClock"></fa-icon>
+            {{ timeTransform(element.eventTime) }}
+          </span>
+        </div>
+        <div class="sos-text" *ngIf="element.alertLevelId === 4">
+          <span class="title">SOS</span>
+          <span>
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            {{ element.eventTypeName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faHiking"></fa-icon>
+            {{ element.reporterName }}
+          </span>
+          <span>
+            <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+            {{ element.latpt }}, {{ element.lngpt }}
+          </span>
+          <span>
+            <fa-icon [icon]="faClock"></fa-icon>
+            {{ timeTransform(element.eventTime) }}
+          </span>
+        </div>
+      </agm-info-window>
+    </agm-map>
   </div>
 </div>

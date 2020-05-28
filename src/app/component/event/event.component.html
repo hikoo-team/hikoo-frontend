@@ -16,13 +16,13 @@
       <fa-icon [icon]="faChevronDown" *ngIf="levelHover"></fa-icon>
     </div>
     <mat-menu #levelMenu="matMenu" yPosition="below" class="customize">
-      <button mat-menu-item>
-        <span>Info</span>
+      <button mat-menu-item (click)="onChangeMultiLevel(1)">
+        <span>Information</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onChangeMultiLevel(2)">
         <span>Caution</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onChangeMultiLevel(3)">
         <span>Danger</span>
       </button>
     </mat-menu>
@@ -41,13 +41,13 @@
     </div>
   </div>
   <mat-menu #statusMenu="matMenu" yPosition="below" class="customize">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onChangeMultiStatus('PENDING')">
       <span>Pending</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onChangeMultiStatus('PROCESSING')">
       <span>Processing</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onChangeMultiStatus('RESOLVED')">
       <span>Resolved</span>
     </button>
   </mat-menu>
@@ -73,47 +73,59 @@
 
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.index)"> {{ element.type }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.id)"> {{ element.eventTypeName }} </td>
       </ng-container>
 
       <ng-container matColumnDef="level">
         <th mat-header-cell *matHeaderCellDef> Level </th>
-        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.index)">
-          <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(element.level)}"></fa-icon>
-          {{ levelTransform(element.level) }}
+        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.id)">
+          <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(element.alertLevelId)}"></fa-icon>
+          {{ levelTransform(element.alertLevelId) }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef> Time </th>
-        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.index)"> {{ timeTransform(element.time) }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.id)"> {{ timeTransform(element.eventTime) }} </td>
       </ng-container>
 
       <ng-container matColumnDef="location">
         <th mat-header-cell *matHeaderCellDef> Location </th>
-        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.index)"> {{ element.location }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.id)"> {{ element.latpt }}, {{ element.lngpt }} </td>
       </ng-container>
 
       <ng-container matColumnDef="reporter">
         <th mat-header-cell *matHeaderCellDef> Reporter </th>
-        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.index)"> {{ element.reporter }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="receivingUnit">
-        <th mat-header-cell *matHeaderCellDef> Receiving Unit </th>
-        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.index)"> {{ element.receivingUnit }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openEventDetail(element.id)"> {{ element.reporterName }} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element" [ngStyle]="{'color': getColor(element.status)}" (click)="openEventDetail(element.index)">
-          {{ statusTransform(element.status) }}
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngStyle]="{'color': getColor(element.stat)}"
+          [matMenuTriggerFor]="statusChangeMenu"
+          #menuTrigger="matMenuTrigger"
+        >
+          {{ statusTransform(element.stat) }}
+          <mat-menu #statusChangeMenu="matMenu" yPosition="below" class="customize">
+            <button mat-menu-item (click)="onChangeStatus(element, 'PENDING')">
+              <span>Pending</span>
+            </button>
+            <button mat-menu-item (click)="onChangeStatus(element, 'PROCESSING')">
+              <span>Processing</span>
+            </button>
+            <button mat-menu-item (click)="onChangeStatus(element, 'RESOLVED')">
+              <span>Resolved</span>
+            </button>
+          </mat-menu>
         </td>
+
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          (click)="selection.toggle(row)">
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
       </tr>
     </table>
 

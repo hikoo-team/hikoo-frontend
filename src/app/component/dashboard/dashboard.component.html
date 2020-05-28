@@ -1,17 +1,19 @@
-<div id="dashboard">
+<div id="dashboard" *ngIf="!loading">
   <div class="dashboard-info">
     <div class="title">
       <span>Dashboard</span>
       <span>{{ curretimeToString() }}</span>
     </div>
     <div class="count-block">
-      <div>
-        <span>Total Permits</span>
-        <span>{{ totalPermits }}</span>
-      </div>
-      <div>
-        <span>Checked-in</span>
-        <span>{{ checkedIn }}</span>
+      <div class="info">
+        <div>
+          <span>Total Permits</span>
+          <span>{{ dashboardInfo.hikesCount }}</span>
+        </div>
+        <div>
+          <span>Checked-in</span>
+          <span>{{ dashboardInfo.checkinCount }}</span>
+        </div>
       </div>
     </div>
     <div class="checkin-time">
@@ -27,45 +29,186 @@
         </canvas>
       </div>
     </div>
-    <div class="count-block" [class.alert]="sos !== 0 || offTrialHiker !== 0">
-      <div>
-        <span [class.alertWord]="sos !== 0">SOS</span>
-        <span [class.alertWord]="sos !== 0">{{ sos }}</span>
+    <div class="count-block" [class.alert]="dashboardInfo.sosCount !== 0">
+      <div class="info">
+        <div>
+          <span [class.alertWord]="dashboardInfo.sosCount !== 0">SOS</span>
+          <span [class.alertWord]="dashboardInfo.sosCount !== 0">{{ dashboardInfo.sosCount }}</span>
+        </div>
+        <div>
+        </div>
       </div>
-      <div>
-        <span [class.alertWord]="offTrialHiker !== 0">Off Trial Hiker</span>
-        <span [class.alertWord]="offTrialHiker !== 0">{{ offTrialHiker }}</span>
-      </div>
-    </div>
-    <div class="count-block">
-      <div>
-        <span>Unresolved Event</span>
-        <span>{{ unResolvedEvent }}</span>
-      </div>
-      <div>
-        <span>Pending</span>
-        <span>{{ pending }}</span>
-      </div>
-    </div>
-    <div class="count-block">
-      <div>
-        <span>Sunrise</span>
-        <span>
-          {{ sunrise }}
-          <span>am</span>
-        </span>
-      </div>
-      <div>
-        <span>Sunset</span>
-        <span>
-          {{ sunset }}
-          <span>pm</span>
-        </span>
+      <div class="popup-info" *ngIf="dashboardInfo.sosCount !== 0">
+        <div *ngFor="let item of mapSos">
+          <span>
+            <fa-icon [icon]="faCircle"></fa-icon>
+            {{ item.eventName }}
+          </span>
+          <span>{{ item.latpt }}, {{ item.lngpt }}</span>
+        </div>
       </div>
     </div>
+    <div class="count-block" [class.alert]="dashboardInfo.unResolvedEventCount !== 0 || dashboardInfo.pendingCount !== 0">
+      <div class="info-event">
+        <div>
+          <span>Total Event</span>
+          <span>{{ dashboardInfo.unResolvedEventCount }}</span>
+        </div>
+        <div>
+          <span>Pending</span>
+          <span>{{ dashboardInfo.pendingCount }}</span>
+        </div>
+        <div>
+          <span>Resolved Event</span>
+          <span>{{ dashboardInfo.pendingCount }}</span>
+        </div>
+      </div>
+      <div class="processbar">
+        <div class="bar" *ngIf="dashboardInfo.infoCount !== 0">
+          <div>
+            <fa-icon [icon]="faExclamationTriangle" style="color: #FF6298;"></fa-icon>
+            Info
+          </div>
+          <div>
+            <span class="info-line" [style.width.%]="eventCount(dashboardInfo.infoCount)"></span>&nbsp;&nbsp;&nbsp;
+            {{ dashboardInfo.infoCount ? dashboardInfo.infoCount : 0 }}
+          </div>
+        </div>
+        <div class="bar" *ngIf="dashboardInfo.cautionCount !== 0">
+          <div>
+            <fa-icon [icon]="faExclamationTriangle" style="color: #9C0BD1;"></fa-icon>
+            Caution
+          </div>
+          <div>
+            <span class="caution-line" [style.width.%]="eventCount(dashboardInfo.cautionCount)"></span>&nbsp;&nbsp;&nbsp;
+            {{ dashboardInfo.cautionCount ? dashboardInfo.cautionCount : 0 }}
+          </div>
+        </div>
+        <div class="bar" *ngIf="dashboardInfo.dangerCount !== 0">
+          <div>
+            <fa-icon [icon]="faExclamationTriangle" style="color: #DB0000;"></fa-icon>
+            Danger
+          </div>
+          <div>
+            <span class="danger-line" [style.width.%]="eventCount(dashboardInfo.dangerCount)"></span>&nbsp;&nbsp;&nbsp;
+            {{ dashboardInfo.dangerCount ? dashboardInfo.dangerCount : 0 }}
+          </div>
+        </div>
+      </div>
+      <div class="popup-info">
+        <div *ngFor="let item of mapDanger">
+          <span>
+            <fa-icon [icon]="faCircle"></fa-icon>
+            {{ item.eventName }}
+          </span>
+          <span>{{ item.latpt }}, {{ item.lngpt }}</span>
+        </div>
+      </div>
+    </div>
+    <!--<div class="count-block">
+      <div class="info">
+        <div>
+          <span>Sunrise</span>
+          <span>
+            {{ sunrise }}
+            <span>am</span>
+          </span>
+        </div>
+        <div>
+          <span>Sunset</span>
+          <span>
+            {{ sunset }}
+            <span>pm</span>
+          </span>
+        </div>
+      </div>
+    </div>-->
   </div>
   <div class="dashboard-map">
-    <!--<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue">
-    </agm-map>-->
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" [fullscreenControl]="true" [mapTypeControl]="true">
+      <div *ngFor="let item of mapHiker">
+        <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconHiker"></agm-marker>
+      </div>
+      <div *ngFor="let item of mapInfo">
+        <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconInfo" (markerClick)="markerClick(item, infowindow)"></agm-marker>
+        <agm-info-window [latitude]="item.latpt" [longitude]="item.lngpt+0.001" [isOpen]="item.isOpen" #infowindow>
+          <div class="info-text">
+            <span class="title">Information</span>
+            <span>
+              <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+              {{ item.eventName }}
+            </span>
+            <span>
+              <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+              {{ item.latpt }}, {{ item.lngpt }}
+            </span>
+            <span>
+              <fa-icon [icon]="faClock"></fa-icon>
+              {{ timeTransform(item.logtime) }}
+            </span>
+          </div>
+        </agm-info-window>
+      </div>
+      <div *ngFor="let item of mapCaution">
+        <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconCaution" (markerClick)="markerClick(item, cautionwindow)"></agm-marker>
+        <agm-info-window [latitude]="item.latpt" [longitude]="item.lngpt+0.001" [isOpen]="item.isOpen" #cautionwindow>
+          <div class="caution-text">
+            <span class="title">Caution</span>
+            <span>
+              <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+              {{ item.eventName }}
+            </span>
+            <span>
+              <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+              {{ item.latpt }}, {{ item.lngpt }}
+            </span>
+            <span>
+              <fa-icon [icon]="faClock"></fa-icon>
+              {{ timeTransform(item.logtime) }}
+            </span>
+          </div>
+        </agm-info-window>
+      </div>
+      <div *ngFor="let item of mapDanger">
+        <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconDanger" (markerClick)="markerClick(item, dangerwindow)"></agm-marker>
+        <agm-info-window [latitude]="item.latpt" [longitude]="item.lngpt+0.001" [isOpen]="item.isOpen" #dangerwindow>
+          <div class="sos-text">
+            <span class="title">Danger</span>
+            <span>
+              <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+              {{ item.eventName }}
+            </span>
+            <span>
+              <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+              {{ item.latpt }}, {{ item.lngpt }}
+            </span>
+            <span>
+              <fa-icon [icon]="faClock"></fa-icon>
+              {{ timeTransform(item.logtime) }}
+            </span>
+          </div>
+        </agm-info-window>
+      </div>
+      <div *ngFor="let item of mapSos">
+        <agm-marker [latitude]="item.latpt" [longitude]="item.lngpt" [iconUrl]="iconSos" (markerClick)="markerClick(item, soswindow)"></agm-marker>
+        <agm-info-window [latitude]="item.latpt" [longitude]="item.lngpt+0.001" [isOpen]="item.isOpen" #soswindow>
+          <div class="sos-text">
+            <span class="title">SOS</span>
+            <span>
+              <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+              {{ item.eventName }}
+            </span>
+            <span>
+              <fa-icon [icon]="faMapMarkerAlt"></fa-icon>
+              {{ item.latpt }}, {{ item.lngpt }}
+            </span>
+            <span>
+              <fa-icon [icon]="faClock"></fa-icon>
+              {{ timeTransform(item.logtime) }}
+            </span>
+          </div>
+        </agm-info-window>
+      </div>
+    </agm-map>
   </div>
 </div>
