@@ -10,13 +10,10 @@ const port = 8080;
 
 app.use(express.static('dist/hikoo-frontend'));
 app.use(
-  "/api",
+  "/",
   createProxyMiddleware({
     target: proxyConf.url,
-    changeOrigin: true,
-    pathRewrite: {
-      "^/api": "/",
-    },
+    changeOrigin: true
   })
 );
 
