@@ -40,6 +40,17 @@ body {
   height: 0px;
 }
 
+.gm-style .gm-style-iw-c {
+  transform: translate(5%,-50%);
+  width: 300px;
+  height: 200px;
+}
+
+.gm-style .gm-style-iw-t::after {
+  background: none;
+  height: 0px;
+}
+
 .mat-dialog-container {
   background-color: $color-white;
   padding: 0px !important;

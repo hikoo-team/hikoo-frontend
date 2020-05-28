@@ -1,31 +1,66 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
-import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { ProjectService } from '../../services/project.service';
+import { MessageService } from '../../services/message.service';
+import { IDashboard } from '../../services/model/project.model';
+
+import {
+  faCircle,
+  faExclamationTriangle,
+  faHiking,
+  faMapMarkerAlt,
+  faClock
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy  {
   lat = 23.4698902;
   lng = 120.9572518;
   zoomValue = 15;
+  iconHiker = '../../../assets/icon/circle.png';
+  iconInfo = '../../../assets/icon/triangle-pink.png';
+  iconCaution = '../../../assets/icon/triangle-purple.png';
+  iconDanger = '../../../assets/icon/triangle-red.png';
+  iconSos = '../../../assets/icon/sos-circle.png';
+
+  faCircle = faCircle;
+  faExclamationTriangle = faExclamationTriangle;
+  faHiking = faHiking;
+  faMapMarkerAlt = faMapMarkerAlt;
+  faClock = faClock;
 
   totalPermits = 0;
   checkedIn = 0;
   sos = 1;
   offTrialHiker = 0;
-  unResolvedEvent = 0;
-  pending = 0;
+  unResolvedEvent = 20;
+  pending = 10;
   sunrise = '4:00';
   sunset = '7:38';
 
   public lineChartData: ChartDataSets[] = [
-    { data: [0, 20, 1000, 60, 20, 1, 0], label: '' }
+    { data: [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ], label: '' }
   ];
-  public lineChartLabels: Label[] = ['00', '04', '08', '12', '16', '20', '24'];
+  public lineChartLabels: Label[] = [
+    '00', '', '', '',
+    '04', '', '', '',
+    '08', '', '', '',
+    '12', '', '', '',
+    '16', '', '', '',
+    '20', '', '', ''
+  ];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     scales: {
@@ -51,15 +86,95 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
+  dashboardInfo: IDashboard;
+  loading = false;
+
+  mapInfo = [];
+  mapHiker = [];
+  mapCaution = [];
+  mapDanger = [];
+  mapSos = [];
+
+  windowIsOpen = false;
+
+  private unbSibscribe = new Subject();
 
 
-  constructor() { }
+  constructor(
+    private project: ProjectService,
+    private message: MessageService
+  ) {
+    this.loading = true;
+  }
 
   ngOnInit() {
+    this.project.getDashboard().subscribe(dashboard => {
+      this.dashboardInfo = dashboard;
+      this.getData();
+    });
+    this.message.getDashboard().pipe(takeUntil(this.unbSibscribe)).subscribe((r: IDashboard) => {
+      console.log(r);
+      this.dashboardInfo = r;
+      this.getData();
+    });
   }
 
   getData() {
+    this.mapHiker = [];
+    this.mapInfo = [];
+    this.mapCaution = [];
+    this.mapDanger = [];
+    this.mapSos = [];
+    for (const item of this.dashboardInfo.allGps) {
+      if (item.ptinfo === 'hiker') {
+        item.isOpen = false;
+        this.mapHiker.push(item);
+      } else {
+        item.isOpen = false;
+        if (item.alertName === 'Information') {
+          this.mapInfo.push(item);
+        } else if (item.alertName === 'Caution') {
+          this.mapCaution.push(item);
+        } else if (item.alertName === 'Danger') {
+          this.mapDanger.push(item);
+        } else if (item.alertName === 'Emergency') {
+          this.mapSos.push(item);
+        }
+      }
+    }
+    this.lineChartData[0].data = [];
 
+    const data = [];
+    for (let i = 0; i < 24; i ++) {
+      const hourFind = this.dashboardInfo.checkinTime.find(s => parseInt(s.hour, 10) === i);
+      if (hourFind) {
+        data.push(hourFind.count);
+      } else {
+        data.push(0);
+      }
+    }
+    this.lineChartData[0].data = data;
+    this.loading = false;
+  }
+
+  ngOnDestroy() {
+    this.unbSibscribe.next();
+    this.unbSibscribe.complete();
+  }
+
+  markerClick(marker, e) {
+    e.open();
+    marker.isOpen = true;
+  }
+
+  timeTransform(time: number) {
+    const timer = new Date(time);
+    return timer.getMonth() + 1 + '/' + timer.getDate() + ' ' + timer.getHours() + ':' + timer.getMinutes() + ':' + timer.getSeconds();
+  }
+
+  eventCount(count) {
+    const totalCount = this.dashboardInfo.cautionCount + this.dashboardInfo.infoCount + this.dashboardInfo.dangerCount;
+    return (count / totalCount) * 90;
   }
 
   curretimeToString() {

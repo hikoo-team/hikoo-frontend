@@ -11,7 +11,15 @@
         Add Event
       </span>
     </div>
-    <div></div>
+    <div *ngIf="eventSelect">
+      <span>{{ eventSelect.eventTypeName }}</span>
+      <span>
+        <fa-icon [icon]="faExclamationTriangle" [ngStyle]="{'color': getLevelColor(eventSelect.alertLevelId)}"></fa-icon>
+        {{ levelTransform(eventSelect.alertLevelId) }}
+      </span>
+      <span>{{ timeTransform(eventSelect.eventTime) }}</span>
+      <span>{{ eventSelect.latpt }}, {{ eventSelect.lngpt }}</span>
+    </div>
   </div>
 
   <div class="event-broadcast">
@@ -19,13 +27,13 @@
       <span>Broadcast to hikers</span>
     </div>
     <div class="radio-btn">
-      <input
+      <!--<input
         type="radio"
         name="yesnobtn"
         value="schedule"
         [(ngModel)]="broadcastType"
       />
-      <label style="padding-right: 80px;">Include the schedule</label>
+      <label style="padding-right: 80px;">Include the schedule</label>-->
       <input
         type="radio"
         name="yesnobtn"
@@ -34,27 +42,42 @@
       />
       <label style="padding-right: 5px;">Within a range of</label>
       <input
-        type="number"
+        type="number" [(ngModel)]="alertInfo.radius"
       />
       <label>km</label>
     </div>
     <div class="place">
       To
-      <input type="text" />
-      <select>
-        <option></option>
+      <select [(ngModel)]="alertInfo.permitId">
+        <option *ngFor="let item of station" [ngValue]="item.id">{{ item.name }}</option>
       </select>
+      <input type="text" [(ngModel)]="time"/>
     </div>
   </div>
 
   <div class="event-text">
     <div>
       <span>Content</span>
-      <textarea></textarea>
+      <div class="content-border">
+        <textarea [(ngModel)]="alertInfo.eventInfo"></textarea>
+        <div>
+          <img [src]="imgURL" height="100" width="100" *ngIf="imgURL">
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="attach-btn">
+  <input
+    #chooseFile
+    id="upload_img"
+    type="file"
+    name="photo"
+    accept='image/*'
+    (change)="preview($event)"
+    style="display: none;"
+  />
+
+  <div class="attach-btn" (click)="onUploadClicked()">
     <fa-icon [icon]="faPaperclip"></fa-icon>
     <span>Attach File</span>
   </div>
@@ -62,7 +85,9 @@
   <div class="event-creator">
     <div>
       <span>Creator</span>
-      <input type="text"/>
+      <select [(ngModel)]="alertInfo.creatorId">
+        <option *ngFor="let item of creator" [ngValue]="item.id">{{ item.name }}</option>
+      </select>
     </div>
     <div>
       <button class="cancel-btn" (click)="onCancel()">Cancel</button>

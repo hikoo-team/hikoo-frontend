@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot --host 0.0.0.0 --port 8000",
     "start:prod": "node index.js",
+    "start": "ng serve --aot --host 0.0.0.0 --port 8000 --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -34,6 +34,7 @@
     "http-proxy": "^1.18.1",
     "http-proxy-middleware": "^1.0.4",
     "ng2-charts": "^2.2.5",
+    "ngx-socket-io": "^3.0.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "update": "^0.7.4",

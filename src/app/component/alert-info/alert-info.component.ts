@@ -11,6 +11,9 @@ import {
   faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 
+import { IAlert } from '../../services/model/project.model';
+import { ProjectService } from '../../services/project.service';
+
 
 @Component({
   selector: 'app-alert-info',
@@ -18,45 +21,31 @@ import {
   styleUrls: ['./alert-info.component.scss']
 })
 export class AlertInfoComponent implements OnInit {
-  lat = 23.4698902;
-  lng = 120.9572518;
-  zoomValue = 15;
-
   faArrowLeft = faArrowLeft;
   faBell = faBell;
   faExclamationTriangle = faExclamationTriangle;
   faChevronDown = faChevronDown;
 
-  totalPermits = 0;
-  checkedIn = 0;
-  sos = 1;
-  offTrialHiker = 0;
-  unResolvedEvent = 0;
-  pending = 0;
+  alertId: string;
+  loading = false;
 
-  uuid: string;
-
-  data = {
-    index: 1,
-    type: 'Falling Rocks',
-    level: 1,
-    time: 1590130800000,
-    location: '24.9525, 121.0212',
-    reporter: 'Wang, Da-Da',
-    receivingUnit: 'HePing',
-    status: 0,
-    description: 'asdasdasdasd'
-  };
+  element: IAlert;
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
+    private project: ProjectService
   ) {
-
+    this.loading = true;
+    this.alertId = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get('id');
+    this.project.getAlertDetail(this.alertId).subscribe(alert => {
+      this.element = alert;
+      console.log(this.element);
+      this.loading = false;
+    });
   }
 
   backToEvent() {
@@ -76,26 +65,26 @@ export class AlertInfoComponent implements OnInit {
 
   levelTransform(level: number) {
     switch (level) {
-      case 0:
-        return 'Info';
       case 1:
-        return 'Caution';
+        return 'Information';
       case 2:
-        return 'Danger';
+        return 'Caution';
       case 3:
+        return 'Danger';
+      case 4:
         return 'SOS';
     }
   }
 
   getLevelColor(level: number) {
     switch (level) {
-      case 0:
-        return '#FF52A1';
       case 1:
-        return '#9C0BD1';
+        return '#FF52A1';
       case 2:
-        return '#DB0000';
+        return '#9C0BD1';
       case 3:
+        return '#DB0000';
+      case 4:
         return '#DB0000';
     }
   }
@@ -103,9 +92,5 @@ export class AlertInfoComponent implements OnInit {
   timeTransform(time: number) {
     const timer = new Date(time);
     return timer.getMonth() + 1 + '/' + timer.getDate() + ' ' + timer.getHours() + ':' + timer.getMinutes() + ':' + timer.getSeconds();
-  }
-
-  getData() {
-
   }
 }

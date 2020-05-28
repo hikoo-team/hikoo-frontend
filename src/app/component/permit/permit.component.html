@@ -1,5 +1,5 @@
-<div id="permit">
-  <div class="title">Event</div>
+<div id="permit" *ngIf="!loading">
+  <div class="title">Permit</div>
   <div class="info-edit">
     <div
       (mouseover)="typeHover=true"
@@ -38,13 +38,13 @@
       <fa-icon [icon]="faChevronDown"></fa-icon>
     </div>
     <mat-menu #alertMenu="matMenu" yPosition="below" class="customize110">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onChangeWatchStatus('NORMAL')">
         <span>Normal</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onChangeWatchStatus('WATCHLIST')">
         <span>Watchlist</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onChangeWatchStatus('BLACKLIST')">
         <span>Blaklist</span>
       </button>
     </mat-menu>
@@ -71,52 +71,50 @@
 
       <ng-container matColumnDef="mark">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)">
-          <fa-icon [icon]="faTag" style="font-size: 14px;" [ngStyle]="{'color': getMarkColor(element.mark)}"></fa-icon>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)">
+          <fa-icon [icon]="faTag" style="font-size: 14px;" [ngStyle]="{'color': getMarkColor(element.hikerInfo.watchStatus)}"></fa-icon>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)">{{ element.name }}</td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)">{{ element.hikerInfo.lastName }}, {{ element.hikerInfo.firstName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="dob">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of Birth </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.dob }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)"> {{ permitTimeTransform(element.hikerInfo.dob) }} </td>
       </ng-container>
 
       <ng-container matColumnDef="nation">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nationality </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.nation }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)"> {{ element.hikerInfo.nationality }} </td>
       </ng-container>
 
       <ng-container matColumnDef="idNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ID Number </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.idNumber }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)"> {{ element.hikerInfo.identificationNumber }} </td>
       </ng-container>
 
       <ng-container matColumnDef="permit">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Permit Time </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.permit }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)"> {{ permitTimeTransform(element.hikeStart) }}-{{ permitTimeTransform(element.hikeEnd) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="destination">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Destination </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)"> {{ element.destination }} </td>
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)"> {{ onTrailsGet(element.trails) }} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.index)">
-          {{ statusTransform(element.status) }}
+        <td mat-cell *matCellDef="let element" (click)="openPermitDetail(element.id)">
+          {{ statusTransform(element.permitId) }}
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-          (click)="selection.toggle(row)">
-      </tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
   </div>

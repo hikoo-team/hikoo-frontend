@@ -1,4 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Routes } from '@angular/router';
@@ -28,6 +29,7 @@ import {
 } from '@angular/material';
 
 import { ChartsModule } from 'ng2-charts';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +47,9 @@ import { MessageDialogComponent } from './component/message-dialog/message-dialo
 import { UserPermitInfoComponent } from './component/user-permit-info/user-permit-info.component';
 import { AlertInfoComponent } from './component/alert-info/alert-info.component';
 import { AlertEventDialogComponent } from './component/alert-event-dialog/alert-event-dialog.component';
+
+// const config: SocketIoConfig = { url: 'http://18.177.114.248:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://192.168.11.34:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -67,6 +72,7 @@ import { AlertEventDialogComponent } from './component/alert-event-dialog/alert-
     AppRoutingModule,
     BrowserModule,
     ChartsModule,
+    CommonModule,
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
@@ -93,7 +99,8 @@ import { AlertEventDialogComponent } from './component/alert-event-dialog/alert-
       apiKey: 'AIzaSyDi4jBvQt1KxY-hT4TAuDqNw8EgHaIOWOY',
       language: 'zh-TW'
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SocketIoModule.forRoot(config)
   ],
   entryComponents: [
     AlertDialogComponent,

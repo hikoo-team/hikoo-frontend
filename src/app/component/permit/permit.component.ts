@@ -14,53 +14,10 @@ import {
   faTag
 } from '@fortawesome/free-solid-svg-icons';
 
-export interface PeriodicElement {
-  index: number;
-  mark: number;
-  name: string;
-  dob: string;
-  nation: string;
-  idNumber: string;
-  permit: string;
-  destination: string;
-  status: number;
-}
+import { IPermit } from '../../services/model/project.model';
+import { ProjectService } from '../../services/project.service';
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    index: 1,
-    mark: 0,
-    name: 'Wang, Da-Da',
-    dob: 'A123456789',
-    nation: 'TW',
-    idNumber: 'A123456789',
-    permit: 'Wang, Da-Da',
-    destination: 'sadsadsadasdsad',
-    status: 0
-  },
-  {
-    index: 2,
-    mark: 1,
-    name: 'Chang, Tsu-Wei',
-    dob: 'A123456789',
-    nation: 'TW',
-    idNumber: 'A123456789',
-    permit: 'Ling, Da-Da',
-    destination: 'sadsadsadasdsad',
-    status: 1
-  },
-  {
-    index: 3,
-    mark: 2,
-    name: 'Chang, Tsu-Wei',
-    dob: 'A123456789',
-    nation: 'TW',
-    idNumber: 'A123456789',
-    permit: 'Ta, Da-Da',
-    destination: 'sadsadsadasdsad',
-    status: 2
-  },
-];
+const ELEMENT_DATA: IPermit[] = [];
 
 @Component({
   selector: 'app-permit',
@@ -74,21 +31,35 @@ export class PermitComponent implements OnInit {
   faTag = faTag;
 
   displayedColumns: string[] = ['select', 'mark', 'name', 'dob', 'nation', 'idNumber', 'permit', 'destination', 'status'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource: MatTableDataSource<IPermit>;
+  selection = new SelectionModel<IPermit>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   typeHover = false;
+  loading = false;
 
 
   constructor(
     private router: Router,
-  ) { }
+    private project: ProjectService
+  ) {
+    this.loading = true;
+  }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.project.getPermitCount().subscribe(pCount => {
+      this.project.getPermitList(0, pCount.count).subscribe(pList => {
+        this.dataSource = new MatTableDataSource<IPermit>(pList);
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+        this.loading = false;
+
+        console.log(this.dataSource);
+      });
+    });
   }
 
   openPermitDetail(index: number) {
@@ -100,28 +71,59 @@ export class PermitComponent implements OnInit {
     ]);
   }
 
-  statusTransform(status: number) {
-    switch (status) {
-      case 0:
-        return 'Pending';
+  onTrailsGet(trail: any[]) {
+    let trailRoute = '';
+    for (let i = 0; i < trail.length ; i ++) {
+      if (i === trail.length - 1) {
+        trailRoute += trail[i].name;
+      } else {
+        trailRoute += trail[i].name + ', ';
+      }
+    }
+    return trailRoute;
+  }
+
+  statusTransform(permit: number) {
+    switch (permit) {
       case 1:
-        return 'Accepted';
+        return 'Pending';
       case 2:
+        return 'Accepted';
+      case 3:
         return 'Rejected';
     }
   }
 
-  getMarkColor(mark: number) {
+  getMarkColor(mark: string) {
     switch (mark) {
-      case 0:
+      case 'NORMAL':
         return '#FFFFFF';
-      case 1:
+      case 'WATCHLIST':
         return '#E2C800';
-      case 2:
+      case 'BLACKLIST':
         return '#DB0000';
       default:
         return '#FFFFFF';
     }
+  }
+
+  onChangeWatchStatus(mark: string) {
+    const waitToPut = [];
+    for (const item of this.selection.selected) {
+      item.hikerInfo.watchStatus = mark;
+      waitToPut.push({
+        hikeId: item.id,
+        hikerId: item.hikerId,
+        meme: item.memo,
+        watchStatus: mark
+      });
+    }
+    this.project.putPermitList(waitToPut).subscribe(result => {});
+  }
+
+  permitTimeTransform(time: number) {
+    const timer = new Date(time);
+    return timer.getFullYear() + '/' + (timer.getMonth() + 1) + '/' + timer.getDate();
   }
 
   timeTransform(time: number) {
@@ -141,11 +143,11 @@ export class PermitComponent implements OnInit {
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: IPermit): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.index + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
 }

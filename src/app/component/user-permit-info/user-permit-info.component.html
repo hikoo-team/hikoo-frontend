@@ -1,18 +1,18 @@
-<div id="permit-detail">
+<div id="permit-detail" *ngIf="!loading">
   <div class="permit-title">
     <div (click)="backToEvent()" class="back">
       <fa-icon [icon]="faArrowLeft"></fa-icon>
       Permit
     </div>
     <div class="title">
-      <span>Permit #{{ uuid }}</span>
+      <span>Permit #{{ userId }}</span>
       <span>
-        Status:
-        <span> Accepted</span>
+        Status:&nbsp;&nbsp;
+        <span> {{ element.permitId ? statusTransform(element.permitId) : '' }}</span>
       </span>
       <span>
-        Issued by:
-        <span> Public Order Division, Nantou County Police Department</span>
+        Issued by:&nbsp;&nbsp;
+        <span>(No API)</span>
       </span>
     </div>
   </div>
@@ -25,38 +25,52 @@
       <div>
         <span>Face ID</span>
         <div class="id-photo">
-
+          <img [src]="element.hikerInfo.image" height="180" width="135">
         </div>
       </div>
       <div>
         <span>Name</span>
-        <span>Maktoum bin Rashid Al Maktoum</span>
+        <span>{{ element.hikerInfo.lastName }}, {{ element.hikerInfo.firstName }}</span>
         <span>Nationality</span>
-        <span>United Arab Emirates</span>
+        <span>{{ element.hikerInfo.nationality }}</span>
       </div>
       <div>
         <span>Gender</span>
-        <span>Male</span>
+        <span>{{ getGender(element.hikerInfo.gender) }}</span>
         <span>ID Number</span>
-        <span>136399990</span>
+        <span>{{ element.hikerInfo.identificationNumber }}</span>
       </div>
       <div>
         <span>Date of Birth</span>
-        <span>1965/8/31</span>
+        <span>{{ permitTimeTransform(element.hikerInfo.dob) }}</span>
         <span>Email</span>
-        <span>MaktoumbinRashidAlMaktoum@gmail.com</span>
+        <span>{{ element.hikerInfo.email }}</span>
       </div>
       <div>
         <span>
           List
-          <span>
+          <span
+            [matMenuTriggerFor]="alertMenu"
+            #menuTrigger="matMenuTrigger"
+          >
             <fa-icon [icon]="faPen"></fa-icon>
             Change
           </span>
+          <mat-menu #alertMenu="matMenu" yPosition="below" class="customize110">
+            <button mat-menu-item (click)="onChangeWatchStatus('NORMAL')">
+              <span>Normal</span>
+            </button>
+            <button mat-menu-item (click)="onChangeWatchStatus('WATCHLIST')">
+              <span>Watchlist</span>
+            </button>
+            <button mat-menu-item (click)="onChangeWatchStatus('BLACKLIST')">
+              <span>Blaklist</span>
+            </button>
+          </mat-menu>
         </span>
         <span>
-          <fa-icon [icon]="faTag"></fa-icon>
-          Watchlist
+          <fa-icon [icon]="faTag" [ngStyle]="{'color': getMarkColor(element.hikerInfo.watchStatus)}"></fa-icon>
+          {{ getMarkTranform(element.hikerInfo.watchStatus) }}
         </span>
       </div>
     </div>
@@ -71,59 +85,58 @@
         <span>Phone Number</span>
         <span>
           <span>Home</span>
-          <span>02-23456789</span>
+          <span>{{ element.hikerInfo.homeNumber }}</span>
         </span>
         <span>
           <span>Mobile</span>
-          <span>0987654321</span>
+          <span>{{ element.hikerInfo.mobileNumber}}</span>
         </span>
         <span>
           <span>Satellite</span>
-          <span>N/A</span>
+          <span>{{ element.hikerInfo.satelliteNumber }}</span>
         </span>
       </div>
       <div>
         <span>Address</span>
-        <span>No. 99, Section 3, Taiwan Boulevard,
-          Xitun District, Taichung City, 40701</span>
+        <span>{{ element.hikerInfo.address }}</span>
       </div>
       <div>
         <span>Other Communication Devices</span>
         <span>
           <span>GPS</span>
-          <span>N/A</span>
+          <span>(No API)</span>
         </span>
         <span>
           <span>Wireless</span>
-          <span>N/A</span>
+          <span>(No API)</span>
         </span>
         <span>
           <span>Others</span>
-          <span>N/A</span>
+          <span>(No API)</span>
         </span>
       </div>
       <div>
         <span>Guide</span>
-        <span>Chen, Min-yo</span>
+        <span>{{ element.guideName }}</span>
         <span>
           <span>Mobile</span>
-          <span>0987654321</span>
+          <span>{{ element.guideContact }}</span>
         </span>
         <span>
           <span>Satellite</span>
-          <span>23456789</span>
+          <span>{{ element.guideContact2 }}</span>
         </span>
       </div>
       <div>
         <span>Emergency Contact</span>
-        <span>Fang, Jen-ling</span>
+        <span>{{ element.hikerInfo.emergencyContact }}</span>
         <span>
           <span>Home</span>
-          <span>02-23456789</span>
+          <span>{{ element.hikerInfo.emergencyNumber }}</span>
         </span>
         <span>
           <span>Mobile</span>
-          <span>0987654321</span>
+          <span>{{ element.hikerInfo.emergencyMobile }}</span>
         </span>
       </div>
     </div>
@@ -137,39 +150,37 @@
       <div>
         <span>Purpose</span>
         <span>
-          <span>Home</span>
+          <span>(No API)</span>
           <span></span>
         </span>
       </div>
       <div>
         <span>Destination</span>
-        <span>Yushan Main Peak, Yushan Front Peak, Yushan East Peak,
-          Chilai South Peak, Chilai Nanhua, Nenggao Mountains, Hehuang Main Peak,
-          Hehuang East Peak, Hehuang North Peak, Hehuang West Peak, Shimen Mountains,
-          Tao Mountains, Lala Mountains</span>
+        <span>{{ onTrailsGet(element.trails) }}</span>
       </div>
       <div>
         <span>Stay Time</span>
         <span>
           <span>From</span>
-          <span>2020/5/14</span>
+          <span>{{ permitTimeTransform(element.hikeStart) }}</span>
         </span>
         <span>
           <span>To</span>
-          <span>2020/6/30</span>
+          <span>{{ permitTimeTransform(element.hikeEnd) }}</span>
         </span>
       </div>
       <div>
         <span>Identity Documents</span>
-        <span>Driver License</span>
+        <span>(No API)</span>
         <span>
-          <div class="licence-photo"></div>
-          <div class="licence-photo"></div>
+          <div class="licence-photo">
+            <img [src]="element.hikerInfo.identification" height="99" width="132">
+          </div>
         </span>
       </div>
       <div>
         <span>Note</span>
-        <span>N/A</span>
+        <span>(No API)</span>
       </div>
     </div>
   </div>
@@ -179,21 +190,13 @@
   <div class="permit-content">
     <div class="content-title">Check-in Record</div>
     <div class="content-record">
-      <div>
-        <span>2020/5/14 6:15:49</span>
-        <span>Tatajia Entrance</span>
+      <div *ngFor="let item of checkinData">
+        <span>{{ timeTransform(item.checkinTime) }}</span>
+        <!--<span>{{ item.hikeId }}</span>
         <div class="id-photo">
-
-        </div>
+          (No API)
+        </div>-->
       </div>
-      <div>
-        <span>2020/5/16 4:08:16</span>
-        <span>Chilai Nanhua Check-in Station</span>
-        <div class="id-photo">
-
-        </div>
-      </div>
-
     </div>
   </div>
 
@@ -202,8 +205,8 @@
   <div class="permit-content">
     <div class="content-title">Memo</div>
     <div class="content-memo">
-      <textarea></textarea>
+      <textarea [(ngModel)]="element.memo"></textarea>
     </div>
-    <button class="done-btn width200">Save</button>
+    <button class="done-btn width200" (click)="onSavePermit()">Save</button>
   </div>
 </div>
