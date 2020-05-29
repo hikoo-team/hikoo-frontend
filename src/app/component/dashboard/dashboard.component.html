@@ -29,22 +29,23 @@
         </canvas>
       </div>
     </div>
-    <div class="count-block" [class.alert]="dashboardInfo.sosCount !== 0">
+    <div class="count-block" [class.alert]="dashboardInfo.emergencyCount !== 0">
       <div class="info">
         <div>
-          <span [class.alertWord]="dashboardInfo.sosCount !== 0">SOS</span>
-          <span [class.alertWord]="dashboardInfo.sosCount !== 0">{{ dashboardInfo.sosCount }}</span>
+          <span [class.alertWord]="dashboardInfo.emergencyCount !== 0">SOS</span>
+          <span [class.alertWord]="dashboardInfo.emergencyCount !== 0">{{ dashboardInfo.emergencyCount }}</span>
         </div>
         <div>
         </div>
       </div>
-      <div class="popup-info" *ngIf="dashboardInfo.sosCount !== 0">
-        <div *ngFor="let item of mapSos">
-          <span>
+      <div class="popup-info" *ngIf="dashboardInfo.emergencyCount !== 0">
+        <div *ngFor="let item of sosEvent">
+          <span class="sos-title">
             <fa-icon [icon]="faCircle"></fa-icon>
             {{ item.eventName }}
           </span>
-          <span>{{ item.latpt }}, {{ item.lngpt }}</span>
+          <span class="sos-name">{{ item.hikerName }}</span>
+          <span class="sos-lat">{{ item.latpt }}, {{ item.lngpt }}</span>
         </div>
       </div>
     </div>
@@ -52,7 +53,7 @@
       <div class="info-event">
         <div>
           <span>Total Event</span>
-          <span>{{ dashboardInfo.unResolvedEventCount }}</span>
+          <span>{{ dashboardInfo.eventTotalCount }}</span>
         </div>
         <div>
           <span>Pending</span>
@@ -60,7 +61,7 @@
         </div>
         <div>
           <span>Resolved Event</span>
-          <span>{{ dashboardInfo.pendingCount }}</span>
+          <span>{{ dashboardInfo.resolvedCount }}</span>
         </div>
       </div>
       <div class="processbar">
@@ -96,12 +97,12 @@
         </div>
       </div>
       <div class="popup-info">
-        <div *ngFor="let item of mapDanger">
+        <div *ngFor="let item of totalEvent">
           <span>
             <fa-icon [icon]="faCircle"></fa-icon>
             {{ item.eventName }}
           </span>
-          <span>{{ item.latpt }}, {{ item.lngpt }}</span>
+          <span class="event-info-lat">{{ item.latpt }}, {{ item.lngpt }}</span>
         </div>
       </div>
     </div>

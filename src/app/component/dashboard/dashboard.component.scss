@@ -172,9 +172,15 @@
               color: $color-alertred;
             }
 
-            >span:nth-child(2) {
+            .event-info-lat, .sos-lat {
               width: 60%;
             }
+
+            .sos-title, .sos-name {
+              width: 15%;
+            }
+
+
           }
 
 

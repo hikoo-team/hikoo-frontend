@@ -2,14 +2,27 @@ export interface IDashboard {
   hikesCount: number;
   checkinCount: number;
   checkinTime: IDashboardCheckInTime[];
+  emergencyCount: number;
   sosCount: number;
   offTrailHikerCount: number;
   unResolvedEventCount: number;
   pendingCount: number;
   infoCount: number;
   cautionCount: number;
+  eventTotalCount: number;
+  resolvedCount: number;
   dangerCount: number;
   allGps: IDashboardGps[];
+  eventSos: IEventSos[];
+}
+
+export interface IEventSos {
+  eventId: number;
+  hikerId: number;
+  hikerName: string;
+  latpt: number;
+  lngpt: number;
+  alertLevelId: number;
 }
 
 export interface IDashboardGps {

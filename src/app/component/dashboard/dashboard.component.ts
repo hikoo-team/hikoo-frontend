@@ -95,6 +95,9 @@ export class DashboardComponent implements OnInit, OnDestroy  {
   mapDanger = [];
   mapSos = [];
 
+  sosEvent = [];
+  totalEvent = [];
+
   windowIsOpen = false;
 
   private unbSibscribe = new Subject();
@@ -120,11 +123,21 @@ export class DashboardComponent implements OnInit, OnDestroy  {
   }
 
   getData() {
+    console.log('data');
     this.mapHiker = [];
     this.mapInfo = [];
     this.mapCaution = [];
     this.mapDanger = [];
     this.mapSos = [];
+    this.sosEvent = [];
+    this.totalEvent = [];
+    for (const item of this.dashboardInfo.eventSos) {
+      if (item.alertLevelId !== 4) {
+        this.totalEvent.push(item);
+      } else if (item.alertLevelId === 4) {
+        this.sosEvent.push(item);
+      }
+    }
     for (const item of this.dashboardInfo.allGps) {
       if (item.ptinfo === 'hiker') {
         item.isOpen = false;
