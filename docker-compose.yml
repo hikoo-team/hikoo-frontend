@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  hikoo-frontend:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: hikoo-frontend
+    security_opt:
+      - seccomp:unconfined
+    container_name: hikoo-frontend
+    ports:
+      - "80:8080"
+    hostname: hikoo-frontend
