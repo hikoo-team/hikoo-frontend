@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Observable, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import {
@@ -13,6 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { IEvent } from '../../services/model/project.model';
+import { MessageService } from '../../services/message.service';
 import { ProjectService } from '../../services/project.service';
 
 const ELEMENT_DATA: IEvent[] = [];
@@ -27,7 +29,7 @@ export class EventComponent implements OnInit, OnDestroy {
   faList = faList;
   faChevronDown = faChevronDown;
 
-  displayedColumns: string[] = ['select', 'type', 'level', 'time', 'location', 'reporter', 'status'];
+  displayedColumns: string[] = ['select', 'type', 'level', 'time', 'location', 'reporter', 'receivingUnit', 'status'];
   dataSource = new MatTableDataSource<IEvent>(ELEMENT_DATA);
   selection = new SelectionModel<IEvent>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -37,20 +39,16 @@ export class EventComponent implements OnInit, OnDestroy {
   statusHover = false;
   statusDetailHover = false;
 
-  private docSub: Subscription;
+  private unbSibscribe = new Subject();
 
 
   constructor(
     private router: Router,
-    private project: ProjectService
+    private project: ProjectService,
+    private message: MessageService
   ) { }
 
   ngOnInit() {
-    this.docSub = this.project.socketEvent.subscribe(doc => {
-      console.log(doc);
-    }, err => {
-      console.log(err);
-    });
     this.project.getEventCount().subscribe(eCount => {
       this.project.getEventList(0, eCount.count).subscribe(eList => {
         this.dataSource.data = eList;
@@ -58,11 +56,17 @@ export class EventComponent implements OnInit, OnDestroy {
       });
     });
 
+    this.message.getEvent().pipe(takeUntil(this.unbSibscribe)).subscribe((r: IEvent) => {
+      console.log(r);
+      this.dataSource.data.push(r);
+    });
+
     this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy() {
-    this.docSub.unsubscribe();
+    this.unbSibscribe.next();
+    this.unbSibscribe.complete();
   }
 
   statusTransform(status: string) {

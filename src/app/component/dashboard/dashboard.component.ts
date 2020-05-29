@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy  {
   offTrialHiker = 0;
   unResolvedEvent = 20;
   pending = 10;
-  sunrise = '4:00';
+  sunrise = '5:20';
   sunset = '7:38';
 
   public lineChartData: ChartDataSets[] = [

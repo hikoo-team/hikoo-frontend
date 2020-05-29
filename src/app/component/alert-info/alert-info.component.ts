@@ -52,6 +52,10 @@ export class AlertInfoComponent implements OnInit {
     this.location.back();
   }
 
+  stationNameTransform(id) {
+
+  }
+
   statusTransform(status: number) {
     switch (status) {
       case 0:

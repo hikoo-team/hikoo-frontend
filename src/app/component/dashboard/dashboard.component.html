@@ -36,6 +36,8 @@
           <span [class.alertWord]="dashboardInfo.emergencyCount !== 0">{{ dashboardInfo.emergencyCount }}</span>
         </div>
         <div>
+          <span [class.alertWord]="dashboardInfo.offTrailHikerCount !== 0">Off Trail Hiker</span>
+          <span [class.alertWord]="dashboardInfo.offTrailHikerCount !== 0">{{ dashboardInfo.offTrailHikerCount }}</span>
         </div>
       </div>
       <div class="popup-info" *ngIf="dashboardInfo.emergencyCount !== 0">
@@ -60,8 +62,8 @@
           <span>{{ dashboardInfo.pendingCount }}</span>
         </div>
         <div>
-          <span>Resolved Event</span>
-          <span>{{ dashboardInfo.resolvedCount }}</span>
+          <span>Unresolved Event</span>
+          <span>{{ dashboardInfo.unResolvedEventCount }}</span>
         </div>
       </div>
       <div class="processbar">
@@ -106,7 +108,7 @@
         </div>
       </div>
     </div>
-    <!--<div class="count-block">
+    <div class="count-block">
       <div class="info">
         <div>
           <span>Sunrise</span>
@@ -123,7 +125,7 @@
           </span>
         </div>
       </div>
-    </div>-->
+    </div>
   </div>
   <div class="dashboard-map">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomValue" [fullscreenControl]="true" [mapTypeControl]="true">

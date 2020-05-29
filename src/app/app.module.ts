@@ -49,7 +49,7 @@ import { AlertInfoComponent } from './component/alert-info/alert-info.component'
 import { AlertEventDialogComponent } from './component/alert-event-dialog/alert-event-dialog.component';
 
 // const config: SocketIoConfig = { url: 'http://192.168.11.35:3000', options: {} };
-const config: SocketIoConfig = { url: 'http://18.177.114.248:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://192.168.11.41:3000', options: {} };
 
 @NgModule({
   declarations: [
