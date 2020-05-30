@@ -22,7 +22,7 @@ $ npm install --no-save
 ```
 
 ### Step 3
-Set proxy config in root project(proxt.config.json)
+Set proxy config in root project(proxy.config.json)
 ```
 {
   "/": {
