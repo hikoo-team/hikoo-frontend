@@ -1,27 +1,54 @@
+![image](doc/source/image/Hikoo_logo.png)
 # HikooFrontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
 
-## Development server
+## Prerequisite
+- node.js version 10+
+- npm
+- angular 7+
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Step 1
+Clone hikoo frontend code
+```
+$ git clone https://github.com/hikerthon/hikoo-frontend.git
+```
 
-## Code scaffolding
+### Step 2
+Install package
+```bash
+$ npm install --no-save
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Step 3
+Set proxy config in root project
+```
+{
+  "/": {
+    "target": "http://[ip]:[port]",
+    "changeOrigin": true,
+    "secure": false
+  }
+}
+```
 
-## Build
+### Step 4
+Set SocketIo config in app.module.ts
+```
+const config: SocketIoConfig = { url: 'http://[ip]:[port]', options: {} };
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Running the app
 
-## Running unit tests
+```bash
+# development
+$ npm run start
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# production mode
+$ npm run build && npm run start:prod
+```
 
-## Running end-to-end tests
+## License
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+  Nest is [MIT licensed](LICENSE).
