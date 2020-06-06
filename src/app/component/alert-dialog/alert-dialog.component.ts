@@ -148,14 +148,19 @@ export class AlertDialogComponent implements OnInit {
     this.alertInfo.eventEnd = new Date().getTime();
     const formData = new FormData();
     formData.append('file', this.file);
-
     // this.project.postAlert(this.alertInfo).subscribe(postResult => {});
-    this.project.postImage(formData).subscribe(result => {
-      this.alertInfo.attachments.push(result.imagePath);
+    if (this.file) {
+      this.project.postImage(formData).subscribe(result => {
+        this.alertInfo.attachments.push(result.imagePath);
+        this.project.postAlert(this.alertInfo).subscribe(postResult => {
+          this.dialogRef.close();
+        });
+      });
+    } else {
       this.project.postAlert(this.alertInfo).subscribe(postResult => {
         this.dialogRef.close();
       });
-    });
+    }
     console.log(this.alertInfo);
   }
 
