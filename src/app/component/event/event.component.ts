@@ -143,15 +143,32 @@ export class EventComponent implements OnInit, OnDestroy {
   }
 
   onChangeMultiStatus(status: string) {
+    const eventChanges = []
     for (const item of this.selection.selected) {
       item.stat = status;
+      const eventChange = {
+        id: item.id,
+        alertId: item.alertLevelId,
+        stat: item.stat,
+      }
+      eventChanges.push(eventChange);
     }
+    this.project.putEventList(eventChanges).subscribe(result => {});
   }
 
   onChangeMultiLevel(level: number) {
+    const eventChanges = []
     for (const item of this.selection.selected) {
       item.alertLevelId = level;
+      const eventChange = {
+        id: item.id,
+        alertId: item.alertLevelId,
+        stat: item.stat,
+      }
+      
+      eventChanges.push(eventChange);
     }
+    this.project.putEventList(eventChanges).subscribe(result => {});
   }
 
   isAllSelected() {
