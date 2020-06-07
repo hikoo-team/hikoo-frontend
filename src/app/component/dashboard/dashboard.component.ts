@@ -23,9 +23,9 @@ import {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy  {
-  lat = 23.4698902;
-  lng = 120.9572518;
-  zoomValue = 15;
+  lat = 25.0343306;
+  lng = 121.5674818;
+  zoomValue = 17;
   iconHiker = '../../../assets/icon/circle.png';
   iconInfo = '../../../assets/icon/triangle-pink.png';
   iconCaution = '../../../assets/icon/triangle-purple.png';
